@@ -41,7 +41,38 @@ npm run build
 11222333-9
 welcome1
 
-
 {"institucion":"","mail":"pacarrasco@fonasa.cl","nombre":"PEDRO CARRASCO CURIN","run":"16184826-3","rut_prestador":"","tipo_usuario":"FONASA","username":"PACARRASCO"}
 
 {"institucion":"Instituto De Diagnostico S.a.","mail":"pedrodonte@gmail.com","nombre":"JUAN PRESTADOR PEREZ GONZALEZ","roles":["SNOOPY_EXTERNO"],"run":"11222333-9","rut_prestador":"96963660-3","tipo_usuario":"PRESTADOR","username":"pedrodonte@gmail.com"}
+
+const dataInicial = {
+nombre: "",
+autor_id: "pcarrasco",
+descripcion: "",
+tps_estimadas: "",
+promedio_uso_mensual: "",
+metodo_http: "",
+tipo_protocolo: "",
+categoria_servicio: "",
+ambiente: "",
+tipo_autenticacion: "",
+url_backend_prd: "",
+url_backend_qa: "",
+url_backend_dev: "",
+url_servicio_prd: "",
+url_servicio_qa: "",
+url_servicio_dev: "",
+canal_exposicion: "",
+criticidad_servicio: "",
+valida_ip_consumidor: "",
+restringir_contenttype: "",
+habilita_cors: "",
+validación_jwt: "",
+guarda_log_request_response: "",
+genera_alarma_por_incumplimiento_politica: "",
+timeout: "",
+max_size_payload: "",
+max_peticiones_diarias: "",
+fecha_creacion: "",
+fecha_actualizacion: "",
+};
