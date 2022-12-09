@@ -36,24 +36,24 @@ function ListadoServiciosIntegracion() {
 
       {apiSnoopy.error && <MensajeError mensaje={apiSnoopy.error} />}
 
-      {apiSnoopy.listadoServicios && (
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Autor</th>
-              <th>Descripción</th>
-              <th>Tipo de Protocolo</th>
-              <th>Categoría de Servicio</th>
-              <th>Canal de Exposición</th>
-              <th>Criticidad de Servicio</th>
-              <th>Fecha de Creación</th>
-              <th>Fecha de Actualización</th>
-            </tr>
-          </thead>
-          <tbody>
-            {apiSnoopy.listadoServicios.map((servicio) => (
-              <tr key={servicio.nombre}>
+      <table className="table table-striped table-hover mt-3">
+        <thead className="table-light">
+          <tr>
+            <th>Nombre</th>
+            <th>Autor</th>
+            <th>Descripción</th>
+            <th>Tipo de Protocolo</th>
+            <th>Categoría de Servicio</th>
+            <th>Canal de Exposición</th>
+            <th>Criticidad de Servicio</th>
+            <th>Fecha de Creación</th>
+            <th>Fecha de Actualización</th>
+          </tr>
+        </thead>
+        <tbody>
+          {apiSnoopy.listadoServicios &&
+            apiSnoopy.listadoServicios.map((servicio) => (
+              <tr key={servicio.id}>
                 <td>{servicio.nombre}</td>
                 <td>{servicio.autor_id}</td>
                 <td>{servicio.descripcion}</td>
@@ -65,9 +65,8 @@ function ListadoServiciosIntegracion() {
                 <td>{servicio.fecha_actualizacion}</td>
               </tr>
             ))}
-          </tbody>
-        </table>
-      )}
+        </tbody>
+      </table>
     </div>
   );
 }

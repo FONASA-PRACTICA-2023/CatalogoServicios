@@ -8,15 +8,9 @@ const useApiSnoopy = () => {
   const { token } = useAuth();
 
   const header_autenticado = {
-    Content_Type: "application/json",
-  };
-
-  const header_autenticado_dos = {
-    Content_Type: "application/json",
+    "Content-Type": "application/json",
     Authorization: "Bearer " + token,
   };
-
-  const [cookies, setCookie] = useCookies();
 
   const [data, setData] = useState(null);
   const [listadoPrestadores, setListadoPrestadores] = useState([]);
@@ -121,39 +115,6 @@ const useApiSnoopy = () => {
     } catch (error) {
       setUsuario(null);
       setError(error);
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getUsuarioLogeadoExterno = async (setUsuario) => {
-    let url = process.env.REACT_APP_WS_VALIDAR_USUARIO;
-    console.log("getUsuarioLogeadoExterno >> " + url);
-    setLoading(true);
-    try {
-      if (cookies.token != null) {
-        let cabecera = {
-          Content_Type: "application/json",
-          Accept: "application/json",
-          Authorization: token,
-          TokenProxy: cookies.token,
-        };
-        console.log("token: " + cookies.token);
-
-        let usuarioLogeado = await axios.get(
-          process.env.REACT_APP_WS_USER_LOGEADO_EXTERNO,
-          { headers: cabecera }
-        );
-        let res = await axios.post(url, usuarioLogeado.data, { cabecera });
-        setError(null);
-        setUsuario(res.data);
-      } else {
-        console.log("token: NO EXISTE");
-      }
-    } catch (error) {
-      setError(error);
-      console.log("getUsuarioLogeadoExterno >> " + error);
       console.log(error);
     } finally {
       setLoading(false);
@@ -320,13 +281,12 @@ const useApiSnoopy = () => {
   };
 
   const listarServiciosIntegracion = async () => {
-    let url =
-      "https://bhornw6rd7.execute-api.us-east-1.amazonaws.com/dev/gestic-getServicios";
+    let url = "https://api.fonasa.cl/ApiGESTIC/gestic-getServicios";
     console.log("listarServiciosIntegracion >> " + url);
     setLoading(true);
     try {
       await axios.get(url, { headers: header_autenticado }).then((res) => {
-        setListadoServicios(res.data);
+        setListadoServicios(res.data.registros);
         setLoading(false);
         setError(null);
       });
@@ -348,7 +308,6 @@ const useApiSnoopy = () => {
     getUnVectorByID,
     getPrestadoresByRutUsuario,
     validarUsuarioSnoopy,
-    getUsuarioLogeadoExterno,
     getPrestadores,
     crearRegistro,
     eliminarAntecedenteClinico,
