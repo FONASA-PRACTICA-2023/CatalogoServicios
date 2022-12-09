@@ -9,7 +9,7 @@ import LayoutPublico from "./components/LayoutPublico";
 import { AuthProvider } from "./hooks/useAuth";
 
 import FormularioServicioIntegracion from "./pages/servicios/FormularioServicioIntegracion";
-
+import ListadoServiciosIntegracion from "./pages/servicios/ListadoServiciosIntegracion";
 function AplicacionSnoopy() {
   return (
     <BrowserRouter>
@@ -17,6 +17,10 @@ function AplicacionSnoopy() {
         <Routes>
           <Route element={<LayoutPublico />}>
             <Route path="/" element={<FormularioServicioIntegracion />} />
+            <Route
+              path="/servicios"
+              element={<ListadoServiciosIntegracion />}
+            />
           </Route>
           <Route path="/login" element={<HomePage />} />
 

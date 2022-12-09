@@ -9,7 +9,10 @@ const useApiSnoopy = () => {
 
   const header_autenticado = {
     Content_Type: "application/json",
-    Accept: "*/*",
+  };
+
+  const header_autenticado_dos = {
+    Content_Type: "application/json",
     Authorization: "Bearer " + token,
   };
 
@@ -17,6 +20,7 @@ const useApiSnoopy = () => {
 
   const [data, setData] = useState(null);
   const [listadoPrestadores, setListadoPrestadores] = useState([]);
+  const [listadoServicios, setListadoServicios] = useState([]);
   const [bitacoraVector, setBitacoraVector] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -297,7 +301,8 @@ const useApiSnoopy = () => {
   };
 
   const crearRegistroServicioIntegracion = async (formulario) => {
-    let url = "https://postman-echo.com/post";
+    let url =
+      "https://bhornw6rd7.execute-api.us-east-1.amazonaws.com/dev/servicio";
 
     console.log("crearRegistroServicioIntegracion >> " + url);
     setLoading(true);
@@ -309,6 +314,22 @@ const useApiSnoopy = () => {
           setLoading(false);
           setError(null);
         });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const listarServiciosIntegracion = async () => {
+    let url =
+      "https://bhornw6rd7.execute-api.us-east-1.amazonaws.com/dev/gestic-getServicios";
+    console.log("listarServiciosIntegracion >> " + url);
+    setLoading(true);
+    try {
+      await axios.get(url, { headers: header_autenticado }).then((res) => {
+        setListadoServicios(res.data);
+        setLoading(false);
+        setError(null);
+      });
     } catch (error) {
       setLoading(false);
     }
@@ -333,6 +354,8 @@ const useApiSnoopy = () => {
     eliminarAntecedenteClinico,
     getBitacoraVector,
     crearRegistroServicioIntegracion,
+    listadoServicios,
+    listarServiciosIntegracion,
   };
 };
 
