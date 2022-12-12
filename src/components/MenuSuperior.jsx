@@ -14,7 +14,8 @@ function MenuSuperior({ user }) {
               alt="Fonasa"
               className="logo-fonasa img-fluid"
             />
-            Pertinencia Ley de Urgencia
+            {process.env.REACT_APP_NOMBRE_APLICACION}-
+            {process.env.REACT_APP_AMBIENTE}-{process.env.REACT_APP_VERSION}
           </Link>
 
           {user && (

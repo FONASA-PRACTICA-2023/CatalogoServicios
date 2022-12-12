@@ -24,7 +24,6 @@ export const FormularioLogin = () => {
   };
 
   const [valoresFormulario, setValoresFormulario] = useState({
-    tipo_usuario: "PRESTADOR",
     rut_externo: "",
     usuario_interno: "",
     password: "",
@@ -41,19 +40,11 @@ export const FormularioLogin = () => {
     if (form.checkValidity() === false) {
       setCssFormulario("was-validated needs-validation row g-3 ");
     } else {
-      if (valoresFormulario.tipo_usuario === "PRESTADOR") {
-        apiSnoopy.loginUsuarioExterno(
-          valoresFormulario.rut_externo,
-          valoresFormulario.password,
-          iniciarSesion
-        );
-      } else if (valoresFormulario.tipo_usuario === "FONASA") {
-        apiSnoopy.loginUsuarioFonasa(
-          valoresFormulario.rut_externo,
-          valoresFormulario.password,
-          iniciarSesion
-        );
-      }
+      apiSnoopy.loginUsuarioFonasa(
+        valoresFormulario.rut_externo,
+        valoresFormulario.password,
+        iniciarSesion
+      );
     }
 
     setCssFormulario("needs-validation row g-3 ");
@@ -64,47 +55,8 @@ export const FormularioLogin = () => {
       <h1 className="mb-3">Formulario de Acceso</h1>
       {apiSnoopy.loading && <Cargando />}
       {apiSnoopy.error && <MensajeError mensaje={apiSnoopy.error} />}
-      {apiSnoopy.data && <MensajeExito mensaje={apiSnoopy.data.mensaje} />}
+      {apiSnoopy.data && <MensajeExito mensaje={apiSnoopy.data.nombre} />}
       <form onSubmit={handleSubmit} className={cssFormulario} noValidate>
-        {/* tipo_usuario */}
-        <div className="col-md-12">
-          <label htmlFor="tipo_usuario" className="form-label">
-            Tipo de Credencial
-          </label>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="tipo_usuario"
-              id="tipo_usuario_prestador"
-              onChange={gestionarCambioValor}
-              value="PRESTADOR"
-              checked={valoresFormulario.tipo_usuario === "PRESTADOR"}
-            />
-            <label
-              htmlFor="tipo_usuario_prestador"
-              className="form-check-label"
-            >
-              PRESTADOR
-            </label>
-          </div>
-
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="tipo_usuario"
-              id="tipo_usuario_fonasa"
-              onChange={gestionarCambioValor}
-              value="FONASA"
-              checked={valoresFormulario.tipo_usuario === "FONASA"}
-            />
-            <label htmlFor="tipo_usuario_fonasa" className="form-check-label">
-              FONASA
-            </label>
-          </div>
-        </div>
-        <hr />
         {/* rut_externo */}
         <div className="col-md-12 mb-3">
           <label htmlFor="rut_externo" className="form-label">

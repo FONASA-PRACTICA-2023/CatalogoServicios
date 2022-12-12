@@ -22,6 +22,7 @@ function FormularioServicioIntegracion(props) {
   const [noEditable, setNoEditable] = useState(false);
 
   const dataInicial = {
+    id: "",
     nombre: "",
     autor_id: "pcarrasco",
     descripcion: "",
@@ -62,7 +63,8 @@ function FormularioServicioIntegracion(props) {
   const inicializarFormulario = async () => {
     if (params.id) {
       console.log("params", params);
-
+      let id = params.id;
+      await apiSnoopy.buscarDetalleServicio(id, setValoresFormulario);
       setNoEditable(true);
       setEstoyEditando(true);
     } else {
@@ -105,12 +107,14 @@ function FormularioServicioIntegracion(props) {
 
       try {
         if (estoyEditando) {
+          apiSnoopy.actualizarRegistroServicioIntegracion(valoresFormulario);
+          console.log("apiSnoopy.actualizarRegistro", valoresFormulario);
         } else {
           apiSnoopy.crearRegistroServicioIntegracion(valoresFormulario);
           console.log("apiSnoopy.crearRegistro", valoresFormulario);
         }
       } catch (error) {
-        console.log("error", apiSnoopy.error);
+        console.log("error", error);
       }
     }
   };
@@ -119,7 +123,7 @@ function FormularioServicioIntegracion(props) {
     <div className="container">
       <div className="row mt-3">
         <div className="col-12 mb-3">
-          <h1>Ingresar Antecedentes Clínicos</h1>
+          <h1>Formulario Antecedentes del Servicio</h1>
           {apiSnoopy.loading && <Cargando />}
           {apiSnoopy.error && <MensajeError mensaje={apiSnoopy.error} />}
           {apiSnoopy.data && <MensajeExito mensaje={apiSnoopy.data.mensaje} />}
@@ -245,6 +249,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="get"
+                  checked={valoresFormulario.metodo_http === "get"}
                 />
                 <label htmlFor="metodo_http_get" className="form-check-label">
                   Get
@@ -259,6 +264,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_post"
                   onChange={gestionarCambioValor}
                   value="post"
+                  checked={valoresFormulario.metodo_http === "post"}
                 />
                 <label htmlFor="metodo_http_post" className="form-check-label">
                   Post
@@ -273,6 +279,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_put"
                   onChange={gestionarCambioValor}
                   value="put"
+                  checked={valoresFormulario.metodo_http === "put"}
                 />
                 <label htmlFor="metodo_http_put" className="form-check-label">
                   Put
@@ -287,6 +294,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_delete"
                   onChange={gestionarCambioValor}
                   value="delete"
+                  checked={valoresFormulario.metodo_http === "delete"}
                 />
                 <label
                   htmlFor="metodo_http_delete"
@@ -304,6 +312,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_otro"
                   onChange={gestionarCambioValor}
                   value="otro"
+                  checked={valoresFormulario.metodo_http === "otro"}
                 />
                 <label htmlFor="metodo_http_otro" className="form-check-label">
                   Otro
@@ -326,6 +335,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="rest"
+                  checked={valoresFormulario.tipo_protocolo === "rest"}
                 />
                 <label
                   htmlFor="tipo_protocolo_rest"
@@ -343,6 +353,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_protocolo_soap"
                   onChange={gestionarCambioValor}
                   value="soap"
+                  checked={valoresFormulario.tipo_protocolo === "soap"}
                 />
                 <label
                   htmlFor="tipo_protocolo_soap"
@@ -365,6 +376,10 @@ function FormularioServicioIntegracion(props) {
                   id="categoria_servicio_consulta_informacion"
                   onChange={gestionarCambioValor}
                   value="consulta_informacion"
+                  checked={
+                    valoresFormulario.categoria_servicio ===
+                    "consulta_informacion"
+                  }
                 />
                 <label
                   htmlFor="categoria_servicio_consulta_informacion"
@@ -382,6 +397,9 @@ function FormularioServicioIntegracion(props) {
                   id="categoria_servicio_transaccional"
                   onChange={gestionarCambioValor}
                   value="transaccional"
+                  checked={
+                    valoresFormulario.categoria_servicio === "transaccional"
+                  }
                 />
                 <label
                   htmlFor="categoria_servicio_transaccional"
@@ -404,6 +422,7 @@ function FormularioServicioIntegracion(props) {
                   id="ambiente_qa"
                   onChange={gestionarCambioValor}
                   value="qa"
+                  checked={valoresFormulario.ambiente === "qa"}
                 />
                 <label htmlFor="ambiente_qa" className="form-check-label">
                   Solo QA
@@ -418,6 +437,7 @@ function FormularioServicioIntegracion(props) {
                   id="ambiente_qa+prd"
                   onChange={gestionarCambioValor}
                   value="qa+prd"
+                  checked={valoresFormulario.ambiente === "qa+prd"}
                 />
                 <label htmlFor="ambiente_qa+prd" className="form-check-label">
                   QA y PRD
@@ -431,6 +451,7 @@ function FormularioServicioIntegracion(props) {
                   id="ambiente_qa+prd"
                   onChange={gestionarCambioValor}
                   value="prd"
+                  checked={valoresFormulario.ambiente === "prd"}
                 />
                 <label htmlFor="ambiente_qa+prd" className="form-check-label">
                   Solo PRD
@@ -455,6 +476,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="basic"
+                  checked={valoresFormulario.tipo_autenticacion === "basic"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_basic"
@@ -472,6 +494,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_jwt"
                   onChange={gestionarCambioValor}
                   value="jwt"
+                  checked={valoresFormulario.tipo_autenticacion === "jwt"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_jwt"
@@ -489,6 +512,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_oauth2"
                   onChange={gestionarCambioValor}
                   value="oauth2"
+                  checked={valoresFormulario.tipo_autenticacion === "oauth2"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_oauth2"
@@ -506,6 +530,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_api-key"
                   onChange={gestionarCambioValor}
                   value="api-key"
+                  checked={valoresFormulario.tipo_autenticacion === "api-key"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_api-key"
@@ -540,6 +565,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_ssl"
                   onChange={gestionarCambioValor}
                   value="ssl"
+                  checked={valoresFormulario.tipo_autenticacion === "ssl"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_ssl"
@@ -557,6 +583,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_filtro_ip"
                   onChange={gestionarCambioValor}
                   value="filtro_ip"
+                  checked={valoresFormulario.tipo_autenticacion === "filtro_ip"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_filtro_ip"
@@ -573,6 +600,9 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_no_autenticacion"
                   onChange={gestionarCambioValor}
                   value="no_autenticacion"
+                  checked={
+                    valoresFormulario.tipo_autenticacion === "no_autenticacion"
+                  }
                 />
                 <label
                   htmlFor="tipo_autenticacion_filtro_ip"
@@ -598,6 +628,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="http"
+                  checked={valoresFormulario.canal_exposicion === "http"}
                 />
                 <label
                   htmlFor="canal_exposicion_http"
@@ -615,6 +646,7 @@ function FormularioServicioIntegracion(props) {
                   id="canal_exposicion_https"
                   onChange={gestionarCambioValor}
                   value="https"
+                  checked={valoresFormulario.canal_exposicion === "https"}
                 />
                 <label
                   htmlFor="canal_exposicion_https"
@@ -632,6 +664,7 @@ function FormularioServicioIntegracion(props) {
                   id="canal_exposicion_https+ssl"
                   onChange={gestionarCambioValor}
                   value="https+ssl"
+                  checked={valoresFormulario.canal_exposicion === "https+ssl"}
                 />
                 <label
                   htmlFor="canal_exposicion_https+ssl"
@@ -676,6 +709,7 @@ function FormularioServicioIntegracion(props) {
                   id="criticidad_servicio_500"
                   onChange={gestionarCambioValor}
                   value="500"
+                  checked={valoresFormulario.criticidad_servicio === "500"}
                 />
                 <label
                   htmlFor="criticidad_servicio_500"
@@ -693,6 +727,7 @@ function FormularioServicioIntegracion(props) {
                   id="criticidad_servicio_1000"
                   onChange={gestionarCambioValor}
                   value="1000"
+                  checked={valoresFormulario.criticidad_servicio === "1000"}
                 />
                 <label
                   htmlFor="criticidad_servicio_1000"
@@ -710,6 +745,7 @@ function FormularioServicioIntegracion(props) {
                   id="criticidad_servicio_9999"
                   onChange={gestionarCambioValor}
                   value="9999"
+                  checked={valoresFormulario.criticidad_servicio === "9999"}
                 />
                 <label
                   htmlFor="criticidad_servicio_9999"
@@ -761,7 +797,7 @@ function FormularioServicioIntegracion(props) {
                   type="number"
                   maxLength="3"
                   min="0"
-                  max="10"
+                  max="900"
                   step="1"
                   disabled={formularioDesahabilitado}
                   value={valoresFormulario.max_size_payload}
@@ -785,7 +821,7 @@ function FormularioServicioIntegracion(props) {
                   type="number"
                   maxLength="3"
                   min="0"
-                  max="10"
+                  max="2000000"
                   step="1"
                   disabled={formularioDesahabilitado}
                   value={valoresFormulario.max_peticiones_diarias}
@@ -914,6 +950,7 @@ function FormularioServicioIntegracion(props) {
                   id="valida_ip_consumidor_si"
                   onChange={gestionarCambioValor}
                   value="si"
+                  checked={valoresFormulario.valida_ip_consumidor === "si"}
                 />
                 <label
                   htmlFor="valida_ip_consumidor_si"
@@ -931,6 +968,7 @@ function FormularioServicioIntegracion(props) {
                   id="valida_ip_consumidor_no"
                   onChange={gestionarCambioValor}
                   value="no"
+                  checked={valoresFormulario.valida_ip_consumidor === "no"}
                 />
                 <label
                   htmlFor="valida_ip_consumidor_no"
@@ -956,6 +994,7 @@ function FormularioServicioIntegracion(props) {
                   id="restringir_contenttype_si"
                   onChange={gestionarCambioValor}
                   value="si"
+                  checked={valoresFormulario.restringir_contenttype === "si"}
                 />
                 <label
                   htmlFor="restringir_contenttype_si"
@@ -973,6 +1012,7 @@ function FormularioServicioIntegracion(props) {
                   id="restringir_contenttype_no"
                   onChange={gestionarCambioValor}
                   value="no"
+                  checked={valoresFormulario.restringir_contenttype === "no"}
                 />
                 <label
                   htmlFor="restringir_contenttype_no"
@@ -998,6 +1038,7 @@ function FormularioServicioIntegracion(props) {
                   id="habilita_cors_si"
                   onChange={gestionarCambioValor}
                   value="si"
+                  checked={valoresFormulario.habilita_cors === "si"}
                 />
                 <label htmlFor="habilita_cors_si" className="form-check-label">
                   Si
@@ -1012,6 +1053,7 @@ function FormularioServicioIntegracion(props) {
                   id="habilita_cors_no"
                   onChange={gestionarCambioValor}
                   value="no"
+                  checked={valoresFormulario.habilita_cors === "no"}
                 />
                 <label htmlFor="habilita_cors_no" className="form-check-label">
                   No
@@ -1034,6 +1076,7 @@ function FormularioServicioIntegracion(props) {
                   id="validación_jwt_si"
                   onChange={gestionarCambioValor}
                   value="si"
+                  checked={valoresFormulario.validación_jwt === "si"}
                 />
                 <label htmlFor="validación_jwt_si" className="form-check-label">
                   Si
@@ -1048,6 +1091,7 @@ function FormularioServicioIntegracion(props) {
                   id="validación_jwt_no"
                   onChange={gestionarCambioValor}
                   value="no"
+                  checked={valoresFormulario.validación_jwt === "no"}
                 />
                 <label htmlFor="validación_jwt_no" className="form-check-label">
                   No
@@ -1070,6 +1114,9 @@ function FormularioServicioIntegracion(props) {
                   id="guarda_log_request_response_si"
                   onChange={gestionarCambioValor}
                   value="si"
+                  checked={
+                    valoresFormulario.guarda_log_request_response === "si"
+                  }
                 />
                 <label
                   htmlFor="guarda_log_request_response_si"
@@ -1087,6 +1134,9 @@ function FormularioServicioIntegracion(props) {
                   id="guarda_log_request_response_no"
                   onChange={gestionarCambioValor}
                   value="no"
+                  checked={
+                    valoresFormulario.guarda_log_request_response === "no"
+                  }
                 />
                 <label
                   htmlFor="guarda_log_request_response_no"
@@ -1114,6 +1164,10 @@ function FormularioServicioIntegracion(props) {
                   id="genera_alarma_por_incumplimiento_politica_si"
                   onChange={gestionarCambioValor}
                   value="si"
+                  checked={
+                    valoresFormulario.genera_alarma_por_incumplimiento_politica ===
+                    "si"
+                  }
                 />
                 <label
                   htmlFor="genera_alarma_por_incumplimiento_politica_si"
@@ -1131,6 +1185,10 @@ function FormularioServicioIntegracion(props) {
                   id="genera_alarma_por_incumplimiento_politica_no"
                   onChange={gestionarCambioValor}
                   value="no"
+                  checked={
+                    valoresFormulario.genera_alarma_por_incumplimiento_politica ===
+                    "no"
+                  }
                 />
                 <label
                   htmlFor="genera_alarma_por_incumplimiento_politica_no"
@@ -1148,24 +1206,50 @@ function FormularioServicioIntegracion(props) {
             {/* FECHA_CREACION */}
             <input
               type="hidden"
-              value="{valoresFormulario.fecha_creacion}"
+              value={valoresFormulario.fecha_creacion}
               name="fecha_creacion"
             />
             {/* FECHA_ACTUALIZACION */}
             <input
               type="hidden"
-              value="{valoresFormulario.fecha_actualizacion}"
+              value={valoresFormulario.fecha_actualizacion}
               name="fecha_actualizacion"
             />
+            {/* FECHA_ACTUALIZACION */}
+            <input type="hidden" value={valoresFormulario.id} name="id" />
             {/* FIN DE LOS CAMPOS */}
+
+            {apiSnoopy.loading && <Cargando />}
+            {apiSnoopy.error && <MensajeError mensaje={apiSnoopy.error} />}
+            {apiSnoopy.data && (
+              <MensajeExito mensaje={apiSnoopy.data.mensaje} />
+            )}
 
             <div className="col-md-12">
               <button
+                disabled={apiSnoopy.loading}
                 type="submit"
                 className="btn btn-primary"
-                disabled={formularioDesahabilitado}
               >
                 Guardar
+              </button>
+              <button
+                type="button"
+                className="btn btn-info"
+                onClick={() => {
+                  navigate("/add-request/" + valoresFormulario.id);
+                }}
+              >
+                Añadir Request Response
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  navigate("/registros");
+                }}
+              >
+                Cancelar
               </button>
             </div>
           </form>

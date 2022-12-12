@@ -2,9 +2,8 @@
   "inicial": "/registros",
   "login": "/login",
   "logout": "/logout",
-  "public": "/",
   "menu": [
-    { "label": "Crear Registro", "path": "/vector-crear-registro" },
-    { "label": "Ver Registros Creados", "path": "/registros" }
+    { "label": "Crear Servicio", "path": "/servicio-crear" },
+    { "label": "Ver Servicios", "path": "/" }
   ]
 }

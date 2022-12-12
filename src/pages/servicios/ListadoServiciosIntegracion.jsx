@@ -2,24 +2,12 @@ import { useState, useEffect } from "react";
 import Cargando from "../../components/Cargando";
 import MensajeError from "../../components/MensajeError";
 import MensajeExito from "../../components/MensajeExito";
-import { useParams, useNavigate } from "react-router-dom";
-import useApiSnoopy from "../../hooks/useApiSnoopy";
 
+import useApiSnoopy from "../../hooks/useApiSnoopy";
+import { useNavigate } from "react-router-dom";
 function ListadoServiciosIntegracion() {
+  const navigate = useNavigate();
   let apiSnoopy = useApiSnoopy();
-  const estructuraTablaHtml = {
-    nombre: "",
-    autor_id: "pcarrasco",
-    descripcion: "",
-    tipo_protocolo: "",
-    categoria_servicio: "",
-    ambiente: "",
-    url_servicio_prd: "",
-    canal_exposicion: "",
-    criticidad_servicio: "",
-    fecha_creacion: "",
-    fecha_actualizacion: "",
-  };
 
   const buscarServicios = async () => {
     apiSnoopy.listarServiciosIntegracion();
@@ -30,11 +18,12 @@ function ListadoServiciosIntegracion() {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h1>Listado de Servicios de Integración</h1>
-      {apiSnoopy.cargando && <Cargando />}
 
+      {apiSnoopy.loading && <Cargando />}
       {apiSnoopy.error && <MensajeError mensaje={apiSnoopy.error} />}
+      {apiSnoopy.data && <MensajeExito mensaje={apiSnoopy.data.mensaje} />}
 
       <table className="table table-striped table-hover mt-3">
         <thead className="table-light">
@@ -48,6 +37,7 @@ function ListadoServiciosIntegracion() {
             <th>Criticidad de Servicio</th>
             <th>Fecha de Creación</th>
             <th>Fecha de Actualización</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +53,14 @@ function ListadoServiciosIntegracion() {
                 <td>{servicio.criticidad_servicio}</td>
                 <td>{servicio.fecha_creacion}</td>
                 <td>{servicio.fecha_actualizacion}</td>
+                <td>
+                  <button
+                    className="btn btn-link btn-sm"
+                    onClick={() => navigate(`/servicio-editar/${servicio.id}`)}
+                  >
+                    <span className="material-icons">edit</span>
+                  </button>
+                </td>
               </tr>
             ))}
         </tbody>
