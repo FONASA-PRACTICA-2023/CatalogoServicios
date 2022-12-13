@@ -4,10 +4,13 @@ import MensajeError from "../../components/MensajeError";
 import MensajeExito from "../../components/MensajeExito";
 import { useParams, useNavigate } from "react-router-dom";
 import useApiSnoopy from "../../hooks/useApiSnoopy";
+import { useAuth } from "../../hooks/useAuth";
 
 function FormularioServicioIntegracion(props) {
   const navigate = useNavigate();
   let params = useParams();
+  const { usuario_jwt } = useAuth();
+  const [ejemplos, setEjemplos] = useState([]);
 
   const [mensaje, setMensaje] = useState(null);
 
@@ -24,7 +27,7 @@ function FormularioServicioIntegracion(props) {
   const dataInicial = {
     id: "",
     nombre: "",
-    autor_id: "pcarrasco",
+    autor_id: usuario_jwt().username,
     descripcion: "",
     tps_estimadas: "",
     promedio_uso_mensual: "",
@@ -67,6 +70,7 @@ function FormularioServicioIntegracion(props) {
       await apiSnoopy.buscarDetalleServicio(id, setValoresFormulario);
       setNoEditable(true);
       setEstoyEditando(true);
+      await apiSnoopy.buscarRegistrosEjemploRequest(id, setEjemplos);
     } else {
       setValoresFormulario(dataInicial);
       const newValoresFormulario = { ...valoresFormulario };
@@ -109,14 +113,33 @@ function FormularioServicioIntegracion(props) {
         if (estoyEditando) {
           apiSnoopy.actualizarRegistroServicioIntegracion(valoresFormulario);
           console.log("apiSnoopy.actualizarRegistro", valoresFormulario);
+          navigate("/");
         } else {
           apiSnoopy.crearRegistroServicioIntegracion(valoresFormulario);
           console.log("apiSnoopy.crearRegistro", valoresFormulario);
+          navigate("/");
         }
       } catch (error) {
         console.log("error", error);
       }
     }
+  };
+
+  const eliminarRegistroEjemploRequest = async (id_registro) => {
+    console.log("eliminarRegistroEjemploRequest", id_registro);
+    await apiSnoopy.eliminarRegistroEjemploRequest(
+      valoresFormulario.id,
+      id_registro
+    );
+    await apiSnoopy.buscarRegistrosEjemploRequest(
+      valoresFormulario.id,
+      setEjemplos
+    );
+  };
+  const eliminarRegistroServicio = async (id_registro) => {
+    console.log("eliminarRegistroServicio", id_registro);
+    await apiSnoopy.eliminarRegistroServicio(id_registro);
+    navigate("/");
   };
 
   return (
@@ -223,7 +246,7 @@ function FormularioServicioIntegracion(props) {
                   type="number"
                   maxLength="3"
                   min="0"
-                  max="10"
+                  max="10000000"
                   step="1"
                   disabled={formularioDesahabilitado}
                   value={valoresFormulario.promedio_uso_mensual}
@@ -1235,6 +1258,18 @@ function FormularioServicioIntegracion(props) {
               </button>
               <button
                 type="button"
+                disabled={valoresFormulario.id === ""}
+                className="btn btn-danger"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Eliminar Registro
+              </button>
+              <button
+                type="button"
+                disabled={valoresFormulario.id === ""}
                 className="btn btn-info"
                 onClick={() => {
                   navigate("/add-request/" + valoresFormulario.id);
@@ -1252,7 +1287,69 @@ function FormularioServicioIntegracion(props) {
                 Cancelar
               </button>
             </div>
+            <div class="collapse" id="collapseExample">
+              <button
+                type="button"
+                class="btn btn-danger"
+                onClick={() => {
+                  eliminarRegistroServicio(valoresFormulario.id);
+                }}
+              >
+                Confirmar Eliminar
+              </button>
+            </div>
           </form>
+
+          <hr />
+          {ejemplos.length > 0 && (
+            <div className="row">
+              <div className="col-md-12">
+                <h3>Ejemplos de uso del Servicio</h3>
+
+                {ejemplos.map((ejemplo) => (
+                  <div className="row mt-3" key={ejemplo.id}>
+                    <div className="col-md-12">
+                      <h4>
+                        {ejemplo.descripcion}{" "}
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-outline-danger btn-sm dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            Eliminar
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <button
+                                className="dropdown-item text-danger"
+                                onClick={() => {
+                                  eliminarRegistroEjemploRequest(ejemplo.id);
+                                }}
+                              >
+                                Confirmar Eliminar : {ejemplo.descripcion}
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </h4>
+                      {apiSnoopy.loading && <Cargando />}
+                    </div>
+                    <div className="col-md-6">
+                      <h4>Request</h4>
+                      <pre>{ejemplo.pregunta}</pre>
+                    </div>
+                    <div className="col-md-6">
+                      <h4>Response</h4>
+                      <pre>{ejemplo.respuesta}</pre>
+                    </div>
+                    <hr />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

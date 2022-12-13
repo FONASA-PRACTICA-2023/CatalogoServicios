@@ -173,16 +173,99 @@ const useApiSnoopy = () => {
     }
   };
 
+  const crearRegistroEjemploRequest = async (formulario) => {
+    let url = process.env.REACT_APP_REQUEST_CREAR;
+    console.log("crearRegistroEjemploRequest >> " + url);
+    setLoading(true);
+    try {
+      await axios
+        .post(url, formulario, { headers: header_autenticado })
+        .then((res) => {
+          setData(res.data);
+          setLoading(false);
+          setError(null);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const buscarRegistrosEjemploRequest = async (id_servicio, setEjemplos) => {
+    let url = process.env.REACT_APP_REQUEST_TODOS;
+    console.log("buscarRegistrosEjemploRequest >> " + url);
+    setLoading(true);
+    let formulario = {
+      id_servicio: id_servicio,
+    };
+    try {
+      await axios
+        .post(url, formulario, { headers: header_autenticado })
+        .then((res) => {
+          setEjemplos(res.data);
+          console.log(res.data);
+          setLoading(false);
+          setError(null);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const eliminarRegistroEjemploRequest = async (id_servicio, id_registro) => {
+    let url = process.env.REACT_APP_REQUEST_ELIMINAR;
+    console.log("eliminarRegistroEjemploRequest >> " + url);
+    setLoading(true);
+    let formulario = {
+      id_servicio: id_servicio,
+      id: id_registro,
+    };
+    try {
+      await axios
+        .delete(url, { headers: header_autenticado, data: formulario })
+        .then((res) => {
+          console.log(res.data);
+          setLoading(false);
+          setError(null);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const eliminarRegistroServicio = async (id_servicio) => {
+    let url = process.env.REACT_APP_SERVICIO_ELIMINAR;
+    console.log("eliminarRegistroServicio >> " + url);
+    setLoading(true);
+    let formulario = {
+      id: id_servicio,
+    };
+    try {
+      await axios
+        .delete(url, { headers: header_autenticado, data: formulario })
+        .then((res) => {
+          console.log(res.data);
+          setLoading(false);
+          setError(null);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
     data,
+    eliminarRegistroServicio,
     loginUsuarioFonasa,
     crearRegistroServicioIntegracion,
     actualizarRegistroServicioIntegracion,
     listadoServicios,
     listarServiciosIntegracion,
     buscarDetalleServicio,
+    crearRegistroEjemploRequest,
+    buscarRegistrosEjemploRequest,
+    eliminarRegistroEjemploRequest,
   };
 };
 

@@ -60,7 +60,7 @@ export const FormularioLogin = () => {
         {/* rut_externo */}
         <div className="col-md-12 mb-3">
           <label htmlFor="rut_externo" className="form-label">
-            RUT Usuario Externo / Alias Usuario Fonasa
+            Usuario Fonasa
           </label>
           <input
             type="text"

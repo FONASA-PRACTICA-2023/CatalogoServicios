@@ -59,7 +59,7 @@ function FormularioRequestResponse(props) {
 
     setValoresFormulario(newValoresFormulario3);
     setNoEditable(true);
-    setEstoyEditando(true);
+    setEstoyEditando(false);
   };
 
   useEffect(() => {
@@ -89,15 +89,15 @@ function FormularioRequestResponse(props) {
       });
     } else {
       setMensaje(null);
-      console.log("valoresFormulario", valoresFormulario);
 
       try {
         if (estoyEditando) {
-          apiSnoopy.actualizarRegistroServicioIntegracion(valoresFormulario);
+          //apiSnoopy.actualizarRegistroServicioIntegracion(valoresFormulario);
           console.log("apiSnoopy.actualizarRegistro", valoresFormulario);
         } else {
-          apiSnoopy.crearRegistroServicioIntegracion(valoresFormulario);
+          apiSnoopy.crearRegistroEjemploRequest(valoresFormulario);
           console.log("apiSnoopy.crearRegistro", valoresFormulario);
+          navigate("/servicio-editar/" + valoresFormulario.id_servicio);
         }
       } catch (error) {
         console.log("error", error);
@@ -142,6 +142,25 @@ function FormularioRequestResponse(props) {
               </div>
             </div>
 
+            {/* descripcion */}
+            <div className="col-md-10">
+              <label htmlFor="descripcion" className="form-label">
+                Descripción del Ejemplo
+                <span class="text-danger fw-bold fs-5">*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="descripcion"
+                name="descripcion"
+                disabled={formularioDesahabilitado}
+                value={valoresFormulario.descripcion}
+                onChange={gestionarCambioValor}
+                required
+              />
+              <div className="invalid-feedback">Debe ingresar un valor</div>
+              <div class="form-text">Descripción del ejemplo</div>
+            </div>
             {/* AUTOR_ID */}
             <div className="col-md-2">
               <label htmlFor="autor_id" className="form-label">
@@ -243,17 +262,17 @@ function FormularioRequestResponse(props) {
 
             {/* REQUEST */}
             <div className="col-md-6">
-              <label htmlFor="response" className="form-label">
+              <label htmlFor="respuesta" className="form-label">
                 Response / Respuesta
               </label>
               <textarea
                 required
                 className="form-control"
                 rows="8"
-                id="response"
-                name="response"
+                id="respuesta"
+                name="respuesta"
                 disabled={formularioDesahabilitado}
-                value={valoresFormulario.response}
+                value={valoresFormulario.respuesta}
                 onChange={gestionarCambioValor}
               ></textarea>
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -273,11 +292,11 @@ function FormularioRequestResponse(props) {
             />
             {/* dddd */}
             <input
-              type="text"
+              type="hidden"
               value={valoresFormulario.id_servicio}
               name="id_servicio"
             />
-            <input type="text" value={valoresFormulario.id} name="id" />
+            <input type="hidden" value={valoresFormulario.id} name="id" />
             {/* FIN DE LOS CAMPOS */}
 
             {apiSnoopy.loading && <Cargando />}
