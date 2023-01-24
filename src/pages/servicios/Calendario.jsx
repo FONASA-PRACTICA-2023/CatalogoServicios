@@ -57,7 +57,7 @@ function Calendario() {
 
     return (
         <div className='container'>
-            <div className="d-block" style={{width: "90%"}}>
+            <div className="d-block" style={{width: "80%"}}>
                 <h1>Calendario de Pasos a Producción</h1>
                 <FullCalendar
                     plugins={calendarPlugins}
