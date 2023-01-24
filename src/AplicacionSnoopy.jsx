@@ -67,8 +67,6 @@ function AplicacionSnoopy() {
             {/*  */}
 
 
-
-
             <Route
               path="/registros"
               element={<ListadoServiciosIntegracion />}
@@ -86,6 +84,7 @@ function AplicacionSnoopy() {
               element={<VentanaRequest />}
             />
           </Route>
+
           {/*  */}
           <Route
             path="/calendario"

@@ -56,10 +56,8 @@ function Calendario() {
     }, [])
 
     return (
-        <div className='mx-auto w-75 mt-5'>
-            <div className='w-auto d-flex justify-content-center'>
-                <h1><FcCalendar size={50}/>Calendario de Pasos a Producción</h1>
-            </div>
+        <div className='w-100'>
+            <h1>Calendario de Pasos a Producción</h1>
             <FullCalendar
                 plugins={calendarPlugins}
                 initialView="dayGridMonth"
