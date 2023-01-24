@@ -56,9 +56,9 @@ function Calendario() {
     }, [])
 
     return (
-        <div className='mx-auto w-75 p-5 rounded-5 bg-light mt-5'>
-            <div className='w-auto p-3 d-flex justify-content-center'>
-                <h1><FcCalendar size={50}/>Calendario de eventos</h1>
+        <div className='mx-auto w-75 mt-5'>
+            <div className='w-auto d-flex justify-content-center'>
+                <h1><FcCalendar size={50}/>Calendario de Pasos a Producción</h1>
             </div>
             <FullCalendar
                 plugins={calendarPlugins}

@@ -27,7 +27,7 @@ function ModalDescripcionEventos({ estado, cambiarEstado, tituloEvento, contenid
         <>
             {estado && (
                 <div className="position-fixed top-0 start-0 d-flex align-items-center justify-content-center " style={{ width: "100vw", height: "100vh", background: "rgba(0, 0, 0, .5)", zIndex: "1000" }}>
-                    <div className="w-75 p-4 mx-auto bg-white h-75 position-relative rounded-5" style={{ fontSize: "14px" }}>
+                    <div className="w-75 p-4 mx-auto bg-white h-75 position-relative rounded-3" style={{ fontSize: "14px" }}>
                         <div className="border-bottom pb-2" style={{ marginBottom: "50px" }}>
                             <h3 className='fs-6 text-primary fw-semibold'>{tituloEvento}</h3>
                         </div>

@@ -16,7 +16,7 @@ import FormularioObservacion from "./pages/servicios/FormularioObservacion";
 import TablasDeInformacion from "./pages/servicios/TablasDeInformacion";
 import Graficos from "./pages/servicios/Graficos"
 import Calendario from "./pages/servicios/Calendario";
- 
+
 import { CloudOff } from 'react-feather';
 
 function AplicacionSnoopy() {
@@ -36,11 +36,11 @@ function AplicacionSnoopy() {
             />
             <Route
               path="/servicio-ver/:id"
-              element={<FormularioServicioIntegracion  desahabilitado = {true}/>}
+              element={<FormularioServicioIntegracion desahabilitado={true} />}
             />
             <Route
               path="/servicio-editar/:id"
-              element={<FormularioServicioIntegracion  desahabilitado = {false}/>}
+              element={<FormularioServicioIntegracion desahabilitado={false} />}
             />
             <Route
               path="/add-request/:id"
@@ -66,12 +66,7 @@ function AplicacionSnoopy() {
             />
             {/*  */}
 
-            {/*  */}
-            <Route
-              path="/calendario"
-              element={<Calendario />}
-            />
-            {/*  */}
+
 
 
             <Route
@@ -79,30 +74,37 @@ function AplicacionSnoopy() {
               element={<ListadoServiciosIntegracion />}
             />
             <Route
-             path="/servicio-url" 
-             element={<ListadoNuevo />} 
-             />
-             <Route
-             path="/" 
-             element={<ListadoServiciosIntegracion />} 
-             />
-             <Route
+              path="/servicio-url"
+              element={<ListadoNuevo />}
+            />
+            <Route
+              path="/"
+              element={<ListadoServiciosIntegracion />}
+            />
+            <Route
               path="/request-ver/:id"
-              element={<VentanaRequest/>}
+              element={<VentanaRequest />}
             />
           </Route>
+          {/*  */}
+          <Route
+            path="/calendario"
+            element={<Calendario />}
+          />
+          {/*  */}
 
           {/* <Route path="*" element={() => "404 Not Found"} /> */}
           <Route path="*" element=
-          {
-            <div style={{width: "90%", margin: "0 auto", height: "100vh", display: "flex",flexDirection: "column" ,justifyContent: "center", alignItems: "center"}}>
-              <CloudOff className="fs-1 text-primary" style={{height: "90px", width: "90px", fontSize:"90px"}}/>
-              <h1 style={{fontSize: "3rem"}}>Error 404</h1>
-              <p style={{color: "red"}}>Ruto equivocada</p>
-            </div>
-          } 
-          /> 
+            {
+              <div style={{ width: "90%", margin: "0 auto", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <CloudOff className="fs-1 text-primary" style={{ height: "90px", width: "90px", fontSize: "90px" }} />
+                <h1 style={{ fontSize: "3rem" }}>Error 404</h1>
+                <p style={{ color: "red" }}>Ruto equivocada</p>
+              </div>
+            }
+          />
         </Routes>
+
       </AuthProvider>
     </BrowserRouter>
   );
