@@ -3,7 +3,29 @@
   "login": "/login",
   "logout": "/logout",
   "menu": [
-    { "label": "Crear Servicio", "path": "/servicio-crear" },
-    { "label": "Ver Servicios", "path": "/" }
+    {
+      "label": "Crear Servicio",
+      "path": "/servicio-crear"
+    },
+    {
+      "label": "Servicios con su URL",
+      "path": "/servicio-url"
+    },
+    {
+      "label": "Tablas de Informaciones",
+      "path": "/tabla-informacion"
+    },
+    {
+      "label": "Graficos",
+      "path": "/graficos"
+    },
+    {
+      "label": "Calendario",
+      "path": "/calendario"
+    },
+    {
+      "label": "Ver Servicios",
+      "path": "/"
+    }
   ]
 }

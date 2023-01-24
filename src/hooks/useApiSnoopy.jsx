@@ -8,8 +8,8 @@ const useApiSnoopy = () => {
   const { token } = useAuth();
 
   const header_autenticado = {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
+    "Content-Type": "application/json"
+    // Authorization: "Bearer " + token,
   };
 
   const [data, setData] = useState(null);
@@ -252,6 +252,57 @@ const useApiSnoopy = () => {
     }
   };
 
+  const listarServicioAutores = async () => {
+    let url = process.env.REACT_APP_BUSCAR_AUTORES_SERVICIOS;
+    console.log("listarServicioAutores >> " + url);
+    setLoading(true);
+    try {
+      await axios.get(url, { headers: header_autenticado }).then((res) => {
+        setData(res.data);
+        setLoading(false);
+        setError(null);
+      });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const filtrarServiciosPorAutor = async (autor_id) => {
+    let url = process.env.REACT_APP_FILTRAR_SERVICIO_POR_AUTOR;
+    let formulario = {id: autor_id}
+    console.log("filtrarServiciosPorAutor >> " + url);
+    setLoading(true);
+    try {
+      await axios
+        .post(url, formulario, { headers: header_autenticado })
+        .then((res) => {
+          setListadoServicios(res.data.registros);
+          setLoading(false);
+          setError(null);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  const filtrarServicioPorIdnombre = async (IDnombre) => {
+    let url = process.env.REACT_APP_SERVICIO_UNO;
+    let formulario = {id: IDnombre}
+    console.log("filtrarServicioPorIdnombre >> " + url);
+    setLoading(true);
+    try {
+      await axios
+        .post(url, formulario, { headers: header_autenticado })
+        .then((res) => {
+          setListadoServicios(res.data.registros);
+          setLoading(false);
+          setError(null);
+        });
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     error,
@@ -266,6 +317,9 @@ const useApiSnoopy = () => {
     crearRegistroEjemploRequest,
     buscarRegistrosEjemploRequest,
     eliminarRegistroEjemploRequest,
+    listarServicioAutores,
+    filtrarServiciosPorAutor,
+    filtrarServicioPorIdnombre,
   };
 };
 

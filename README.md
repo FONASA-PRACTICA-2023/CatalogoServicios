@@ -76,3 +76,6 @@ max_peticiones_diarias: "",
 fecha_creacion: "",
 fecha_actualizacion: "",
 };
+
+npm config set strict-ssl false
+npm install --legacy-peer-deps

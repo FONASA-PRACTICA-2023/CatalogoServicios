@@ -22,13 +22,12 @@ function FormularioServicioIntegracion(props) {
 
   let apiSnoopy = useApiSnoopy();
 
-  const [cargando, setCargando] = useState(true);
-
   const buscarServicios = async () => {
     apiSnoopy.listarServiciosIntegracion();
     apiSnoopy.listarServicioAutores();
-    setCargando(false);
   };
+
+  const [servicioSeleccionado, setServicioSeleccionado] = useState({});
 
   const [noEditable, setNoEditable] = useState(false);
 
@@ -73,24 +72,34 @@ function FormularioServicioIntegracion(props) {
   );
 
   const inicializarFormulario = async () => {
-    let datosServicios = apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id);
-    if (datosServicios) {
-      setValoresFormulario(Object.assign({}, datosServicios));
-    } else {
-      setValoresFormulario(dataInicial);
-    }
+    let servicio = apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id);
+    setServicioSeleccionado(servicio);
+    console.log("eeedssdss");
+    console.table(servicioSeleccionado);
+    dataInicial.numerador = servicioSeleccionado.numerador;
+    console.log(dataInicial.numerador);
+  
+    // if (params.id) {
+    //   console.log("params", params);
+    //   let id = params.id;
+    //   await apiSnoopy.buscarDetalleServicio(id, setValoresFormulario);
+    //   setNoEditable(true);
+    //   setEstoyEditando(true);
+    //   await apiSnoopy.buscarRegistrosEjemploRequest(id, setEjemplos);
+    // } else {
+    //   setValoresFormulario(dataInicial);
+    //   const newValoresFormulario = { ...valoresFormulario };
+
+    //   setValoresFormulario(newValoresFormulario);
+    //   setEstoyEditando(false);
+    // }
   };
 
   useEffect(() => {
-    const init = async () => {
-      await buscarServicios();
-      if(!cargando){
-        await inicializarFormulario();
-      }
-    }
-    init();
-  }, [cargando]);
-
+    buscarServicios();
+    inicializarFormulario();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const gestionarCambioValor = async (evt) => {
     const { target } = evt;
@@ -142,23 +151,18 @@ function FormularioServicioIntegracion(props) {
       setEjemplos
     );
   };
+  
   const eliminarRegistroServicio = async (id_registro) => {
     console.log("eliminarRegistroServicio", id_registro);
     await apiSnoopy.eliminarRegistroServicio(id_registro);
     navigate("/");
   };
 
-  const obtenerDatos = (tipo) => {
-    let datosServicios = apiSnoopy.listadoServicios && apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id) && apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)[tipo];
-
-    return datosServicios;
-  }
-
   return (
     <div className="container">
       <div className="row mt-3">
         <div className="col-12 mb-3">
-          <h1>Formulario Antecedentes del Servicio</h1>
+          <h1>Formulario Antecedentes del Serviciosss</h1>
           {apiSnoopy.loading && <Cargando />}
           {apiSnoopy.error && <MensajeError mensaje={apiSnoopy.error} />}
           {apiSnoopy.data && <MensajeExito mensaje={apiSnoopy.data.mensaje} />}
@@ -173,7 +177,7 @@ function FormularioServicioIntegracion(props) {
             <div className="col-md-10">
               <label htmlFor="nombre" className="form-label">
                 Nombre del Servicio
-                <span classname="text-danger fw-bold fs-5">*</span>
+                <span className="text-danger fw-bold fs-5">*</span>
               </label>
               <input
                 type="text"
@@ -181,12 +185,12 @@ function FormularioServicioIntegracion(props) {
                 id="nombre"
                 name="nombre"
                 disabled={formularioDesahabilitado}
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.nombre ?? '')}
+                value={params.id}
                 onChange={gestionarCambioValor}
                 required
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
-              <div classname="form-text">
+              <div className="form-text">
                 Debe ser un valor único, no se puede repetir.
               </div>
             </div>
@@ -194,7 +198,7 @@ function FormularioServicioIntegracion(props) {
             {/* AUTOR_ID */}
             <div className="col-md-2">
               <label htmlFor="autor_id" className="form-label">
-                Autor Id<span classname="text-danger fw-bold fs-5">*</span>
+                Autor Id<span className="text-danger fw-bold fs-5">*</span>
               </label>
               <input
                 type="text"
@@ -202,7 +206,7 @@ function FormularioServicioIntegracion(props) {
                 id="autor_id"
                 name="autor_id"
                 disabled={true}
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.autor_id ?? '')}
+                value={valoresFormulario.autor_id}
                 onChange={gestionarCambioValor}
                 required
               />
@@ -217,7 +221,7 @@ function FormularioServicioIntegracion(props) {
                 className="form-control"
                 id="numerador"
                 name="numerador"
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.numerador ?? '')}
+                value={valoresFormulario.numerador}
                 disabled={formularioDesahabilitado}
                 onChange={gestionarCambioValor}
               />
@@ -235,7 +239,7 @@ function FormularioServicioIntegracion(props) {
                 id="descripcion"
                 name="descripcion"
                 disabled={formularioDesahabilitado}
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.descripcion ?? '')}
+                value={valoresFormulario.descripcion}
                 onChange={gestionarCambioValor}
               ></textarea>
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -255,7 +259,7 @@ function FormularioServicioIntegracion(props) {
                   max="10"
                   step="1"
                   disabled={formularioDesahabilitado}
-                  value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tps_estimadas ?? '')}
+                  value={valoresFormulario.tps_estimadas}
                   onChange={gestionarCambioValor}
                 />
                 <span className="input-group-text">TPS</span>
@@ -276,7 +280,7 @@ function FormularioServicioIntegracion(props) {
                   max="10000000"
                   step="1"
                   disabled={formularioDesahabilitado}
-                  value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.promedio_uso_mensual ?? '')}
+                  value={valoresFormulario.promedio_uso_mensual}
                   onChange={gestionarCambioValor}
                 />
                 <span className="input-group-text">Peticiones</span>
@@ -287,20 +291,20 @@ function FormularioServicioIntegracion(props) {
             {/* METODO_HTTP */}
             <div className="col-md-3">
               <label className="form-label">
-                Metodo Http<span classname="text-danger fw-bold fs-5">*</span>
+                Metodo Http<span className="text-danger fw-bold fs-5">*</span>
               </label>
 
               <div className="form-check">
                 <input
-                  className="form-check-input" 
-                  disabled={formularioDesahabilitado}
+                  className="form-check-input" disabled={formularioDesahabilitado}
+
                   type="radio"
                   name="metodo_http"
                   id="metodo_http_get"
                   required
                   onChange={gestionarCambioValor}
                   value="get"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.metodo_http ?? '') === "get"}
+                  checked={valoresFormulario.metodo_http === "get"}
                 />
                 <label htmlFor="metodo_http_get" className="form-check-label">
                   Get
@@ -309,14 +313,14 @@ function FormularioServicioIntegracion(props) {
 
               <div className="form-check">
                 <input
-                  className="form-check-input" 
-                  disabled={formularioDesahabilitado}
+                  className="form-check-input" disabled={formularioDesahabilitado}
+
                   type="radio"
                   name="metodo_http"
                   id="metodo_http_post"
                   onChange={gestionarCambioValor}
                   value="post"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.metodo_http ?? '') === "post"}
+                  checked={valoresFormulario.metodo_http === "post"}
                 />
                 <label htmlFor="metodo_http_post" className="form-check-label">
                   Post
@@ -332,7 +336,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_put"
                   onChange={gestionarCambioValor}
                   value="put"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.metodo_http ?? '') === "put"}
+                  checked={valoresFormulario.metodo_http === "put"}
                 />
                 <label htmlFor="metodo_http_put" className="form-check-label">
                   Put
@@ -348,7 +352,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_delete"
                   onChange={gestionarCambioValor}
                   value="delete"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.metodo_http ?? '') === "delete"}
+                  checked={valoresFormulario.metodo_http === "delete"}
                 />
                 <label
                   htmlFor="metodo_http_delete"
@@ -367,7 +371,7 @@ function FormularioServicioIntegracion(props) {
                   id="metodo_http_otro"
                   onChange={gestionarCambioValor}
                   value="otro"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.metodo_http ?? '') === "otro"}
+                  checked={valoresFormulario.metodo_http === "otro"}
                 />
                 <label htmlFor="metodo_http_otro" className="form-check-label">
                   Otro
@@ -378,7 +382,7 @@ function FormularioServicioIntegracion(props) {
             {/* TIPO_PROTOCOLO */}
             <div className="col-md-3">
               <label className="form-label">
-                Tipo Protocolo<span classname="text-danger fw-bold fs-5">*</span>
+                Tipo Protocolo<span className="text-danger fw-bold fs-5">*</span>
               </label>
 
               <div className="form-check">
@@ -391,7 +395,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="rest"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_protocolo ?? '') === "rest"}
+                  checked={valoresFormulario.tipo_protocolo === "rest"}
                 />
                 <label
                   htmlFor="tipo_protocolo_rest"
@@ -410,7 +414,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_protocolo_soap"
                   onChange={gestionarCambioValor}
                   value="soap"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_protocolo ?? '')  === "soap"}
+                  checked={valoresFormulario.tipo_protocolo === "soap"}
                 />
                 <label
                   htmlFor="tipo_protocolo_soap"
@@ -435,7 +439,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="consulta_informacion"
                   checked={
-                    (apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.categoria_servicio ?? '')  ===
+                    valoresFormulario.categoria_servicio ===
                     "consulta_informacion"
                   }
                 />
@@ -457,7 +461,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="transaccional"
                   checked={
-                    (apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.categoria_servicio ?? '') === "transaccional"
+                    valoresFormulario.categoria_servicio === "transaccional"
                   }
                 />
                 <label
@@ -482,7 +486,7 @@ function FormularioServicioIntegracion(props) {
                   id="ambiente_qa"
                   onChange={gestionarCambioValor}
                   value="qa"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.ambiente ?? '') === "qa"}
+                  checked={valoresFormulario.ambiente === "qa"}
                 />
                 <label htmlFor="ambiente_qa" className="form-check-label">
                   Solo QA
@@ -498,7 +502,7 @@ function FormularioServicioIntegracion(props) {
                   id="ambiente_qa+prd"
                   onChange={gestionarCambioValor}
                   value="qa+prd"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.ambiente ?? '') === "qa+prd"}
+                  checked={valoresFormulario.ambiente === "qa+prd"}
                 />
                 <label htmlFor="ambiente_qa+prd" className="form-check-label">
                   QA y PRD
@@ -513,20 +517,20 @@ function FormularioServicioIntegracion(props) {
                   id="ambiente_qa+prd"
                   onChange={gestionarCambioValor}
                   value="prd"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.ambiente ?? '') === "prd"}
+                  checked={valoresFormulario.ambiente === "prd"}
                 />
                 <label htmlFor="ambiente_qa+prd" className="form-check-label">
                   Solo PRD
                 </label>
               </div>
-              <span classname="form-text">Indicar donde ya esta desplegado.</span>
+              <span className="form-text">Indicar donde ya esta desplegado.</span>
             </div>
 
             {/* TIPO_AUTENTICACION */}
             <div className="col-md-3">
               <label className="form-label">
                 Tipo Autenticacion
-                <span classname="text-danger fw-bold fs-5">*</span>
+                <span className="text-danger fw-bold fs-5">*</span>
               </label>
 
               <div className="form-check">
@@ -539,7 +543,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="basic"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "basic"}
+                  checked={valoresFormulario.tipo_autenticacion === "basic"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_basic"
@@ -558,7 +562,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_jwt"
                   onChange={gestionarCambioValor}
                   value="jwt"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "jwt"}
+                  checked={valoresFormulario.tipo_autenticacion === "jwt"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_jwt"
@@ -577,7 +581,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_oauth2"
                   onChange={gestionarCambioValor}
                   value="oauth2"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "oauth2"}
+                  checked={valoresFormulario.tipo_autenticacion === "oauth2"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_oauth2"
@@ -596,7 +600,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_api-key"
                   onChange={gestionarCambioValor}
                   value="api-key"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "api-key"}
+                  checked={valoresFormulario.tipo_autenticacion === "api-key"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_api-key"
@@ -633,7 +637,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_ssl"
                   onChange={gestionarCambioValor}
                   value="ssl"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "ssl"}
+                  checked={valoresFormulario.tipo_autenticacion === "ssl"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_ssl"
@@ -652,7 +656,7 @@ function FormularioServicioIntegracion(props) {
                   id="tipo_autenticacion_filtro_ip"
                   onChange={gestionarCambioValor}
                   value="filtro_ip"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "filtro_ip"}
+                  checked={valoresFormulario.tipo_autenticacion === "filtro_ip"}
                 />
                 <label
                   htmlFor="tipo_autenticacion_filtro_ip"
@@ -671,7 +675,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="no_autenticacion"
                   checked={
-                    (apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.tipo_autenticacion ?? '') === "no_autenticacion"
+                    valoresFormulario.tipo_autenticacion === "no_autenticacion"
                   }
                 />
                 <label
@@ -686,7 +690,7 @@ function FormularioServicioIntegracion(props) {
             {/* CANAL_EXPOSICION */}
             <div className="col-md-3">
               <label className="form-label">
-                Canal Exposicion<span classname="text-danger fw-bold fs-5">*</span>
+                Canal Exposicion<span className="text-danger fw-bold fs-5">*</span>
               </label>
 
               <div className="form-check">
@@ -699,7 +703,7 @@ function FormularioServicioIntegracion(props) {
                   required
                   onChange={gestionarCambioValor}
                   value="http"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.canal_exposicion ?? '') === "http"}
+                  checked={valoresFormulario.canal_exposicion === "http"}
                 />
                 <label
                   htmlFor="canal_exposicion_http"
@@ -718,7 +722,7 @@ function FormularioServicioIntegracion(props) {
                   id="canal_exposicion_https"
                   onChange={gestionarCambioValor}
                   value="https"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.canal_exposicion ?? '')  === "https"}
+                  checked={valoresFormulario.canal_exposicion === "https"}
                 />
                 <label
                   htmlFor="canal_exposicion_https"
@@ -737,7 +741,7 @@ function FormularioServicioIntegracion(props) {
                   id="canal_exposicion_https+ssl"
                   onChange={gestionarCambioValor}
                   value="https+ssl"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.canal_exposicion ?? '')  === "https+ssl"}
+                  checked={valoresFormulario.canal_exposicion === "https+ssl"}
                 />
                 <label
                   htmlFor="canal_exposicion_https+ssl"
@@ -784,7 +788,7 @@ function FormularioServicioIntegracion(props) {
                   id="criticidad_servicio_500"
                   onChange={gestionarCambioValor}
                   value="500"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.criticidad_servicio ?? '') === "500"}
+                  checked={valoresFormulario.criticidad_servicio === "500"}
                 />
                 <label
                   htmlFor="criticidad_servicio_500"
@@ -803,7 +807,7 @@ function FormularioServicioIntegracion(props) {
                   id="criticidad_servicio_1000"
                   onChange={gestionarCambioValor}
                   value="1000"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.criticidad_servicio ?? '') === "1000"}
+                  checked={valoresFormulario.criticidad_servicio === "1000"}
                 />
                 <label
                   htmlFor="criticidad_servicio_1000"
@@ -822,7 +826,7 @@ function FormularioServicioIntegracion(props) {
                   id="criticidad_servicio_9999"
                   onChange={gestionarCambioValor}
                   value="9999"
-                  checked={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.criticidad_servicio ?? '') === "9999"}
+                  checked={valoresFormulario.criticidad_servicio === "9999"}
                 />
                 <label
                   htmlFor="criticidad_servicio_9999"
@@ -831,7 +835,7 @@ function FormularioServicioIntegracion(props) {
                   +9999
                 </label>
               </div>
-              <div classname="form-text">
+              <div className="form-text">
                 Determinar la criticidad del servicio en base a la cantidad de
                 personas que pueden verse afectadas en un minuto.
               </div>
@@ -853,7 +857,7 @@ function FormularioServicioIntegracion(props) {
                   max="30"
                   step="1"
                   disabled={formularioDesahabilitado}
-                  value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.timeout ?? '')}
+                  value={valoresFormulario.timeout}
                   onChange={gestionarCambioValor}
                 />
                 <span className="input-group-text">segundos</span>
@@ -877,7 +881,7 @@ function FormularioServicioIntegracion(props) {
                   max="900"
                   step="1"
                   disabled={formularioDesahabilitado}
-                  value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.max_size_payload ?? '')}
+                  value={valoresFormulario.max_size_payload}
                   onChange={gestionarCambioValor}
                 />
                 <span className="input-group-text">KB</span>
@@ -901,7 +905,7 @@ function FormularioServicioIntegracion(props) {
                   max="2000000"
                   step="1"
                   disabled={formularioDesahabilitado}
-                  value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.max_peticiones_diarias ?? '')}
+                  value={valoresFormulario.max_peticiones_diarias}
                   onChange={gestionarCambioValor}
                 />
                 <span className="input-group-text">Peticiones</span>
@@ -922,7 +926,7 @@ function FormularioServicioIntegracion(props) {
                 id="url_backend_prd"
                 name="url_backend_prd"
                 disabled={formularioDesahabilitado}
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.url_backend_prd ?? '')}
+                value={valoresFormulario.url_backend_prd}
                 onChange={gestionarCambioValor}
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -939,7 +943,7 @@ function FormularioServicioIntegracion(props) {
                 id="url_servicio_prd"
                 name="url_servicio_prd"
                 disabled={formularioDesahabilitado}
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.url_servicio_prd ?? '')}
+                value={valoresFormulario.url_servicio_prd}
                 onChange={gestionarCambioValor}
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -956,7 +960,7 @@ function FormularioServicioIntegracion(props) {
                 id="url_backend_qa"
                 name="url_backend_qa"
                 disabled={formularioDesahabilitado}
-                value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.url_backend_qa ?? '')}
+                value={valoresFormulario.url_backend_qa}
                 onChange={gestionarCambioValor}
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -973,8 +977,7 @@ function FormularioServicioIntegracion(props) {
                 id="url_servicio_qa"
                 name="url_servicio_qa"
                 disabled={formularioDesahabilitado}
-                // value={(apiSnoopy.listadoServicios.find(servicio => servicio.id === params.id)?.url_servicio_qa ?? '')}
-                value={obtenerDatos("url_servicio_qa")}
+                value={valoresFormulario.url_servicio_qa}
                 onChange={gestionarCambioValor}
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -991,7 +994,7 @@ function FormularioServicioIntegracion(props) {
                 id="url_backend_dev"
                 name="url_backend_dev"
                 disabled={formularioDesahabilitado}
-                value={obtenerDatos('url_backend_dev')}
+                value={valoresFormulario.url_backend_dev}
                 onChange={gestionarCambioValor}
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -1008,8 +1011,7 @@ function FormularioServicioIntegracion(props) {
                 id="url_servicio_dev"
                 name="url_servicio_dev"
                 disabled={formularioDesahabilitado}
-                value={obtenerDatos("url_servicio_dev")}
-                // value={valoresFormulario.url_servicio_dev}
+                value={valoresFormulario.url_servicio_dev}
                 onChange={gestionarCambioValor}
               />
               <div className="invalid-feedback">Debe ingresar un valor</div>
@@ -1030,7 +1032,7 @@ function FormularioServicioIntegracion(props) {
                   id="valida_ip_consumidor_si"
                   onChange={gestionarCambioValor}
                   value="si"
-                  checked={obtenerDatos('valida_ip_consumidor') === "si"}
+                  checked={valoresFormulario.valida_ip_consumidor === "si"}
                 />
                 <label
                   htmlFor="valida_ip_consumidor_si"
@@ -1049,7 +1051,7 @@ function FormularioServicioIntegracion(props) {
                   id="valida_ip_consumidor_no"
                   onChange={gestionarCambioValor}
                   value="no"
-                  checked={obtenerDatos('valida_ip_consumidor') === "no"}
+                  checked={valoresFormulario.valida_ip_consumidor === "no"}
                 />
                 <label
                   htmlFor="valida_ip_consumidor_no"
@@ -1076,7 +1078,7 @@ function FormularioServicioIntegracion(props) {
                   id="restringir_contenttype_si"
                   onChange={gestionarCambioValor}
                   value="si"
-                  checked={obtenerDatos('restringir_contenttype') === "si"}
+                  checked={valoresFormulario.restringir_contenttype === "si"}
                 />
                 <label
                   htmlFor="restringir_contenttype_si"
@@ -1095,7 +1097,7 @@ function FormularioServicioIntegracion(props) {
                   id="restringir_contenttype_no"
                   onChange={gestionarCambioValor}
                   value="no"
-                  checked={obtenerDatos('restringir_contenttype') === "no"}
+                  checked={valoresFormulario.restringir_contenttype === "no"}
                 />
                 <label
                   htmlFor="restringir_contenttype_no"
@@ -1122,7 +1124,7 @@ function FormularioServicioIntegracion(props) {
                   id="habilita_cors_si"
                   onChange={gestionarCambioValor}
                   value="si"
-                  checked={obtenerDatos('habilita_cors') === "si"}
+                  checked={valoresFormulario.habilita_cors === "si"}
                 />
                 <label htmlFor="habilita_cors_si" className="form-check-label">
                   Si
@@ -1138,7 +1140,7 @@ function FormularioServicioIntegracion(props) {
                   id="habilita_cors_no"
                   onChange={gestionarCambioValor}
                   value="no"
-                  checked={obtenerDatos('habilita_cors') === "no"}
+                  checked={valoresFormulario.habilita_cors === "no"}
                 />
                 <label htmlFor="habilita_cors_no" className="form-check-label">
                   No
@@ -1162,7 +1164,7 @@ function FormularioServicioIntegracion(props) {
                   id="validación_jwt_si"
                   onChange={gestionarCambioValor}
                   value="si"
-                  checked={obtenerDatos('validación_jwt') === "si"}
+                  checked={valoresFormulario.validación_jwt === "si"}
                 />
                 <label htmlFor="validación_jwt_si" className="form-check-label">
                   Si
@@ -1178,7 +1180,7 @@ function FormularioServicioIntegracion(props) {
                   id="validación_jwt_no"
                   onChange={gestionarCambioValor}
                   value="no"
-                  checked={obtenerDatos('validación_jwt') === "no"}
+                  checked={valoresFormulario.validación_jwt === "no"}
                 />
                 <label htmlFor="validación_jwt_no" className="form-check-label">
                   No
@@ -1203,7 +1205,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="si"
                   checked={
-                    obtenerDatos('guarda_log_request_response') === "si"
+                    valoresFormulario.guarda_log_request_response === "si"
                   }
                 />
                 <label
@@ -1224,7 +1226,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="no"
                   checked={
-                    obtenerDatos('guarda_log_request_response') === "no"
+                    valoresFormulario.guarda_log_request_response === "no"
                   }
                 />
                 <label
@@ -1255,7 +1257,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="si"
                   checked={
-                    obtenerDatos('genera_alarma_por_incumplimiento_politica') ===
+                    valoresFormulario.genera_alarma_por_incumplimiento_politica ===
                     "si"
                   }
                 />
@@ -1277,7 +1279,7 @@ function FormularioServicioIntegracion(props) {
                   onChange={gestionarCambioValor}
                   value="no"
                   checked={
-                    obtenerDatos('genera_alarma_por_incumplimiento_politica') ===
+                    valoresFormulario.genera_alarma_por_incumplimiento_politica ===
                     "no"
                   }
                 />
@@ -1297,17 +1299,17 @@ function FormularioServicioIntegracion(props) {
             {/* FECHA_CREACION */}
             <input
               type="hidden"
-              value={obtenerDatos('fecha_creacion')}
+              value={valoresFormulario.fecha_creacion}
               name="fecha_creacion"
             />
             {/* FECHA_ACTUALIZACION */}
             <input
               type="hidden"
-              value={obtenerDatos('fecha_actualizacion')}
+              value={valoresFormulario.fecha_actualizacion}
               name="fecha_actualizacion"
             />
             {/* FECHA_ACTUALIZACION */}
-            <input type="hidden" value={obtenerDatos('id')} name="id" />
+            <input type="hidden" value={valoresFormulario.id} name="id" />
             {/* FIN DE LOS CAMPOS */}
 
             {apiSnoopy.loading && <Cargando />}
@@ -1326,7 +1328,7 @@ function FormularioServicioIntegracion(props) {
               </button>
               <button
                 type="button"
-                disabled={obtenerDatos("id") === ""}
+                disabled={valoresFormulario.id === ""}
                 className="btn btn-danger"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"
@@ -1337,10 +1339,10 @@ function FormularioServicioIntegracion(props) {
               </button>
               <button
                 type="button"
-                disabled={obtenerDatos("id") === ""}
+                disabled={valoresFormulario.id === ""}
                 className="btn btn-info"
                 onClick={() => {
-                  navigate("/add-request/" + obtenerDatos("id"));
+                  navigate("/add-request/" + valoresFormulario.id);
                 }}
               >
                 Añadir Request Response
@@ -1355,12 +1357,12 @@ function FormularioServicioIntegracion(props) {
                 Cancelar
               </button>
             </div>
-            <div classname="collapse" id="collapseExample">
+            <div className="collapse" id="collapseExample">
               <button
                 type="button"
-                classname="btn btn-danger"
+                className="btn btn-danger"
                 onClick={() => {
-                  eliminarRegistroServicio(obtenerDatos("id"));
+                  eliminarRegistroServicio(valoresFormulario.id);
                 }}
               >
                 Confirmar Eliminar
@@ -1379,16 +1381,16 @@ function FormularioServicioIntegracion(props) {
                     <div className="col-md-12">
                       <h4>
                         {ejemplo.descripcion}{" "}
-                        <div classname="dropdown">
+                        <div className="dropdown">
                           <button
-                            classname="btn btn-outline-danger btn-sm dropdown-toggle"
+                            className="btn btn-outline-danger btn-sm dropdown-toggle"
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
                             Eliminar
                           </button>
-                          <ul classname="dropdown-menu">
+                          <ul className="dropdown-menu">
                             <li>
                               <button
                                 className="dropdown-item text-danger"
