@@ -57,18 +57,20 @@ function Calendario() {
 
     return (
         <div className='container'>
-            <h1>Calendario de Pasos a Producción</h1>
-            <FullCalendar className= "w-75"
-                plugins={calendarPlugins}
-                initialView="dayGridMonth"
-                headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                }}
-                eventClick={handleEventClick}
-                events={events}
-            />
+            <div className="w-75 d-block">
+                <h1>Calendario de Pasos a Producción</h1>
+                <FullCalendar 
+                    plugins={calendarPlugins}
+                    initialView="dayGridMonth"
+                    headerToolbar={{
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    }}
+                    eventClick={handleEventClick}
+                    events={events}
+                />
+            </div>
             <ModalDescripcionEventos
                 estado={estadoModalObservaciones}
                 cambiarEstado={setEstadoModalObservaciones}
