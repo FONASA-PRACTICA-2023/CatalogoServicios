@@ -56,9 +56,9 @@ function Calendario() {
     }, [])
 
     return (
-        <div className='w-100'>
+        <div className='container'>
             <h1>Calendario de Pasos a Producción</h1>
-            <FullCalendar
+            <FullCalendar className= "w-75"
                 plugins={calendarPlugins}
                 initialView="dayGridMonth"
                 headerToolbar={{
