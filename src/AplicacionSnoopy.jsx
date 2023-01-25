@@ -66,7 +66,6 @@ function AplicacionSnoopy() {
             />
             {/*  */}
 
-
             <Route
               path="/registros"
               element={<ListadoServiciosIntegracion />}

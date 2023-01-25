@@ -128,7 +128,7 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
                             <X className="text-danger" />
                         </button>
 
-                        <div>
+                        <div className='btn cursor-pointer border border-0'>
                             {tipoURL !== "autores" ? (
                                 <div onClick={manejarClick}>
                                     {tipoURL !== "tipo_protocolo" ? (
@@ -292,7 +292,7 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
                             {listaServiciosConURL.length !== 0 || listaServiciosSinURL.length !== 0 || tipoURL === 'autores' ?
                                 <>
                                     <button onClick={prevPage} className='btn btn-primary'><TfiArrowCircleLeft size={20} /></button>
-                                    <input type="number" value={currentPage} onChange={e => goToPage(e.target.value)} />
+                                    <input type="number" value={currentPage} onChange={e => goToPage(e.target.value)} disabled />
                                     <button onClick={nextPage} className='btn btn-primary'><TfiArrowCircleRight size={20} /></button>
                                 </>
                                 : <></>}

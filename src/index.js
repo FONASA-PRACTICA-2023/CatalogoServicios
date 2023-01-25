@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 import AplicacionSnoopy from "./AplicacionSnoopy";
 import "./index.css";
+
 import { CookiesProvider } from "react-cookie";
 import bootstrap from "bootstrap";
 

@@ -146,7 +146,7 @@ function ModalObservaciones({ estado, cambiarEstado, idSer }) {
               {listaDeObservacion.length !== 0 ?
                 <>
                   <button onClick={prevPage} className='btn btn-primary'><TfiArrowCircleLeft size={20} /></button>
-                  <input type="number" value={currentPage} onChange={e => goToPage(e.target.value)} />
+                  <input type="number" value={currentPage} onChange={e => goToPage(e.target.value)} disabled/>
                   <button onClick={nextPage} className='btn btn-primary'><TfiArrowCircleRight size={20} /></button>
                 </>
                 : <></>}

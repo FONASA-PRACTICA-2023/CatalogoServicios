@@ -367,7 +367,7 @@ function ListadoServiciosIntegracion() {
             </div>
             <div className="tabla-servicos-url__pagination d-flex justify-content-center">
                 <button onClick={prevPage} className='btn btn-primary'><TfiArrowCircleLeft size={20} /></button>
-                <input type="number" value={currentPage} onChange={e => goToPage(e.target.value)} />
+                <input type="number" value={currentPage} onChange={e => goToPage(e.target.value)} disabled />
                 <button onClick={nextPage} className='btn btn-primary'><TfiArrowCircleRight size={20} /></button>
             </div>
             <ModalObservaciones
