@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-
 import { X } from 'react-feather';
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 
 function ModalObservaciones({ estado, cambiarEstado, idSer }) {
   const navigate = useNavigate();
-
   const [listaDeObservacion, setListaDeObservacion] = useState({});
   // Agrega estado para almacenar el número de elementos por página
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -15,10 +13,6 @@ function ModalObservaciones({ estado, cambiarEstado, idSer }) {
   const [pages, setPages] = useState(0);
 
   const listadoDeObservaciones = async () => {
-    console.log("----------------");
-    console.log(idSer);
-    console.log("----------------");
-
     var raw = JSON.stringify({
       "id_servicio": idSer
     });
@@ -38,7 +32,6 @@ function ModalObservaciones({ estado, cambiarEstado, idSer }) {
       })
       .then((response) => {
         setListaDeObservacion(response.registros)
-        // calcular numero de páginas
       })
       .catch((error) => {
         console.error("Error while fetching: " + error);

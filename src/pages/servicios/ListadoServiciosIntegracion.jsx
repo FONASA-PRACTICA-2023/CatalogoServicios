@@ -7,7 +7,6 @@ import "../../assets/estilosTablas.css"
 import ModalObservaciones from "./ModalObservaciones";
 import { Check, X, Eye, Edit2, MessageSquare, Code } from 'react-feather';
 
-
 function ListadoServiciosIntegracion() {
   const navigate = useNavigate();
   let apiSnoopy = useApiSnoopy();
@@ -15,8 +14,6 @@ function ListadoServiciosIntegracion() {
   const [estadoModalObservaciones, setEstadoModalObservaciones] = useState(false);
   const [idServicio, setIDServicio] = useState("");
   const [selectedServiceId, setSelectedServiceId] = useState(null);
-
-
 
   const buscarServicios = async () => {
     setIsLoading(true);
@@ -76,7 +73,7 @@ function ListadoServiciosIntegracion() {
     return (
       <div>
         <h2>Catalogo de Servicios</h2>
-        <div className="overflow-auto">
+        <div className="overflow-scroll text-center">
           <FilterableTable
             tableClassName="table table-bordered table-hover"
             namespace="People"

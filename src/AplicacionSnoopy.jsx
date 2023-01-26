@@ -46,26 +46,18 @@ function AplicacionSnoopy() {
               path="/add-request/:id"
               element={<FormularioRequestResponse />}
             />
-            {/*  */}
             <Route
               path="/add-observacion/:id"
               element={<FormularioObservacion />}
             />
-            {/*  */}
-            {/*  */}
             <Route
               path="/tabla-informacion"
               element={<TablasDeInformacion />}
             />
-            {/*  */}
-
-            {/*  */}
             <Route
               path="/graficos"
               element={<Graficos />}
             />
-            {/*  */}
-
             <Route
               path="/registros"
               element={<ListadoServiciosIntegracion />}
@@ -83,21 +75,16 @@ function AplicacionSnoopy() {
               element={<VentanaRequest />}
             />
           </Route>
-
-          {/*  */}
           <Route
             path="/calendario"
             element={<Calendario />}
           />
-          {/*  */}
-
-          {/* <Route path="*" element={() => "404 Not Found"} /> */}
           <Route path="*" element=
             {
               <div style={{ width: "90%", margin: "0 auto", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 <CloudOff className="fs-1 text-primary" style={{ height: "90px", width: "90px", fontSize: "90px" }} />
                 <h1 style={{ fontSize: "3rem" }}>Error 404</h1>
-                <p style={{ color: "red" }}>Ruto equivocada</p>
+                <p style={{ color: "red" }}>Ruta equivocada</p>
               </div>
             }
           />

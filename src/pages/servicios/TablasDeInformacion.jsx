@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import { Check, X, Eye, Edit2, MessageSquare, Code } from 'react-feather';
-
 import ModalObservaciones from "./ModalObservaciones";
-
 import useApiSnoopy from "../../hooks/useApiSnoopy";
 import { useNavigate } from "react-router-dom";
-
 
 function TablasDeInformacion() {
     const navigate = useNavigate();
@@ -102,7 +99,6 @@ function TablasDeInformacion() {
                                                 <td>{servicio.nombre}</td>
                                                 <td>{servicio.autor_id}</td>
                                                 <td>
-                                                    {/* {servicio.url_backend_qa} */}
                                                     {comprobar(servicio.url_backend_qa)}
                                                 </td>
 
@@ -111,13 +107,11 @@ function TablasDeInformacion() {
                                                         className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-editar/${servicio.id}`)}
                                                     >
-                                                        {/* <span className="material-icons">edit</span> */}
                                                         <Edit2 size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-ver/${servicio.id}`)}
                                                     >
-                                                        {/* <i className="size-18" data-feather="archive"></i> */}
                                                         <Eye size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
@@ -172,7 +166,6 @@ function TablasDeInformacion() {
                                                 <td>{servicio.autor_id}</td>
 
                                                 <td>
-                                                    {/* {servicio.url_backend_qa} */}
                                                     {comprobar(servicio.url_servicio_qa)}
                                                 </td>
 
@@ -181,13 +174,11 @@ function TablasDeInformacion() {
                                                         className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-editar/${servicio.id}`)}
                                                     >
-                                                        {/* <span className="material-icons">edit</span> */}
                                                         <Edit2 size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-ver/${servicio.id}`)}
                                                     >
-                                                        {/* <i className="size-18" data-feather="archive"></i> */}
                                                         <Eye size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
@@ -240,9 +231,7 @@ function TablasDeInformacion() {
                                             <tr key={servicio.id}>
                                                 <td>{servicio.nombre}</td>
                                                 <td>{servicio.autor_id}</td>
-
                                                 <td>
-                                                    {/* {servicio.url_backend_qa} */}
                                                     {comprobar(servicio.url_backend_dev)}
                                                 </td>
 
@@ -251,13 +240,11 @@ function TablasDeInformacion() {
                                                         className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-editar/${servicio.id}`)}
                                                     >
-                                                        {/* <span className="material-icons">edit</span> */}
                                                         <Edit2 size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-ver/${servicio.id}`)}
                                                     >
-                                                        {/* <i className="size-18" data-feather="archive"></i> */}
                                                         <Eye size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
@@ -312,7 +299,6 @@ function TablasDeInformacion() {
                                                 <td>{servicio.autor_id}</td>
 
                                                 <td>
-                                                    {/* {servicio.url_backend_qa} */}
                                                     {comprobar(servicio.url_servicio_dev)}
                                                 </td>
 
@@ -321,13 +307,11 @@ function TablasDeInformacion() {
                                                         className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-editar/${servicio.id}`)}
                                                     >
-                                                        {/* <span className="material-icons">edit</span> */}
                                                         <Edit2 size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"
                                                         onClick={() => navigate(`/servicio-ver/${servicio.id}`)}
                                                     >
-                                                        {/* <i className="size-18" data-feather="archive"></i> */}
                                                         <Eye size={16} />
                                                     </button>
                                                     <button className="btn btn-link btn-sm fs-6"

@@ -86,10 +86,6 @@ function FormularioObservacion() {
     dataInicial.fecha_actualizacion = obtenerFecha();
     dataInicial.descripcion = valorDescripcion;
     dataInicial.estado = valorDelRadioSeleccionado;
-    console.log("------");
-    console.log(dataInicial);
-    console.log("----------");
-
     try {
       const response = await fetch(servicio, {
         method: "POST",

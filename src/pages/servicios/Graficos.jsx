@@ -1,7 +1,5 @@
-// servicio.url_backend_qa 
 import React from "react";
 import Chart from 'chart.js/auto';
-// import { getRelativePosition } from 'chart.js/helpers';
 import { useState, useEffect } from "react";
 import useApiSnoopy from "../../hooks/useApiSnoopy";
 import { Pie, Bar, Doughnut } from "react-chartjs-2";

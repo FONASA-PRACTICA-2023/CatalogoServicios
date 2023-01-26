@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import ModalDescripcionEventos from './ModalDescripcionEventos';
@@ -21,6 +20,9 @@ function Calendario() {
         id: "",
         fechaInicio: "",
         fechaTermino: "",
+        color: "",
+        jp: "",
+        proyectoID: "",
     }
 
     function formatDate(date) {
@@ -35,13 +37,13 @@ function Calendario() {
                 datosDelEvento.id = events[i].id;
                 datosDelEvento.fechaInicio = formatDate(events[i].start);
                 datosDelEvento.fechaTermino = formatDate(events[i].end);
+                datosDelEvento.color = events[i].color;
+                datosDelEvento.jp = events[i].jp;
+                datosDelEvento.proyectoID = events[i].proyecto_id;
             }
         }
         console.table(datosDelEvento);
         setDetallesDelEvento(datosDelEvento);
-        console.log("-----dd");
-        console.log(detallesDelEvento);
-        console.log("-----");
         setEstadoModalObservaciones(!estadoModalObservaciones)
         setTituloEvento(info.event.title);
     }
@@ -55,9 +57,19 @@ function Calendario() {
             })
     }, [])
 
+    function renderEventContent(eventInfo) {
+        return (
+            <>
+                <div className=''>
+                    <span className={eventInfo.className}>{eventInfo.timeText}</span>
+                    <span>{eventInfo.event.title}</span>
+                </div>
+            </>
+        )
+    }
     return (
         <div className='container'>
-            <div className="d-block" style={{width: "80%"}}>
+            <div className="d-block" style={{ width: "80%" }}>
                 <h1>Calendario de Pasos a Producción</h1>
                 <FullCalendar
                     plugins={calendarPlugins}
@@ -68,6 +80,7 @@ function Calendario() {
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                     }}
                     eventClick={handleEventClick}
+                    eventBorderColor={"#000"}
                     events={events}
                 />
             </div>
@@ -75,7 +88,7 @@ function Calendario() {
                 estado={estadoModalObservaciones}
                 cambiarEstado={setEstadoModalObservaciones}
                 tituloEvento={tituloEvento}
-                contenidoDelEvento={detallesDelEvento}
+                detallesEvento={detallesDelEvento}
             />
         </div>
     )

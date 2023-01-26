@@ -9,19 +9,14 @@ import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
 function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConURL, listaServiciosSinURL }) {
     const navigate = useNavigate();
     let apiSnoopy = useApiSnoopy();
-
     const [estadoModalObservaciones, setEstadoModalObservaciones] = useState(false);
     const [selectedServiceId, setSelectedServiceId] = useState(null);
-
     const [mostrarServicios, setMostrarServicios] = useState(true);
-
     // paginacion
     const [currentPage, setCurrentPage] = useState(1);
     const [pages, setPages] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(8);
     const [cantserviciosPorAutor, setCantserviciosPorAutor] = useState(null);
-
-
     const [activeAuthor, setActiveAuthor] = useState('');
     const [selectedAuthor, setSelectedAuthor] = useState('');
 
@@ -101,11 +96,6 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
 
     useEffect(() => {
         buscarServicios();
-        let lista = apiSnoopy.listadoServicios.filter(service => service.autor_id === "juan.placencia").length;
-        console.log("77777777");
-        console.log(lista);
-        console.log("777777777");
-
         document.addEventListener("keydown", handleKeyDown);
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
@@ -127,7 +117,6 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
                         >
                             <X className="text-danger" />
                         </button>
-
                         <div className='btn cursor-pointer border border-0'>
                             {tipoURL !== "autores" ? (
                                 <div onClick={manejarClick}>
@@ -159,8 +148,6 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
                                 </div>
                             ) : null}
                         </div>
-
-
                         <div className="card mb-4 border border border-0" style={{ height: "500px" }}>
                             <div className="card-body overflow-auto text-center">
                                 {tipoURL !== "autores" ?
@@ -253,13 +240,11 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
                                                                                 className="btn btn-link btn-sm fs-6"
                                                                                 onClick={() => navigate(`/servicio-editar/${service.id}`)}
                                                                             >
-                                                                                {/* <span className="material-icons">edit</span> */}
                                                                                 <Edit2 size={16} />
                                                                             </button>
                                                                             <button className="btn btn-link btn-sm fs-6"
                                                                                 onClick={() => navigate(`/servicio-ver/${service.id}`)}
                                                                             >
-                                                                                {/* <i className="size-18" data-feather="archive"></i> */}
                                                                                 <Eye size={16} />
                                                                             </button>
                                                                             <button className="btn btn-link btn-sm fs-6"
@@ -287,7 +272,6 @@ function ModalTablaGrafico({ estado, cambiarEstado, tipoURL, listaServiciosConUR
 
                             </div>
                         </div>
-
                         <div className="tabla-servicos-url__pagination d-flex justify-content-center">
                             {listaServiciosConURL.length !== 0 || listaServiciosSinURL.length !== 0 || tipoURL === 'autores' ?
                                 <>

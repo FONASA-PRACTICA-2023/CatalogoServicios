@@ -64,8 +64,6 @@ function FormularioRequestResponse(props) {
 
   useEffect(() => {
     inicializarFormulario();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const gestionarCambioValor = async (evt) => {
@@ -92,7 +90,6 @@ function FormularioRequestResponse(props) {
 
       try {
         if (estoyEditando) {
-          //apiSnoopy.actualizarRegistroServicioIntegracion(valoresFormulario);
           console.log("apiSnoopy.actualizarRegistro", valoresFormulario);
         } else {
           apiSnoopy.crearRegistroEjemploRequest(valoresFormulario);

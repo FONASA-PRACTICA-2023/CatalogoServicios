@@ -5,8 +5,6 @@ import MensajeExito from "../../components/MensajeExito";
 import ModalObservaciones from "./ModalObservaciones";
 import useApiSnoopy from "../../hooks/useApiSnoopy";
 import { useNavigate } from "react-router-dom";
-
-//iconos 
 import { FcManager } from 'react-icons/fc';
 import { BsSearch } from "react-icons/bs";
 import { TfiArrowCircleLeft, TfiArrowCircleRight } from "react-icons/tfi";
@@ -16,7 +14,6 @@ function ListadoServiciosIntegracion() {
     const navigate = useNavigate();
     let apiSnoopy = useApiSnoopy();
 
-    // const [filtroPrestador, setFiltroPrestador] = useState(null);
     const [tablaData, setTablaData] = useState([]);
     const [estadoModalObservaciones, setEstadoModalObservaciones] = useState(false);
     const [selectedServiceId, setSelectedServiceId] = useState(null);
@@ -39,12 +36,10 @@ function ListadoServiciosIntegracion() {
         const busquedaServicio = document.getElementById("tituloBusqueda");
         let filteredData = [];
         if (IDautor === "todos") {
-            // busquedaServicio.innerHTML = "Todos los servicios:";
             setTitulo("Todos los servicios")
             document.getElementById("inputIdNombre").value = "";
             filteredData = apiSnoopy.listadoServicios;
         } else {
-            // busquedaServicio.innerHTML = "Autor " + IDautor;
             setTitulo("Autor " + IDautor);
             document.getElementById("inputIdNombre").value = "";
             filteredData = apiSnoopy.listadoServicios.filter(
@@ -153,7 +148,6 @@ function ListadoServiciosIntegracion() {
                     <datalist id="datalistOptionsIDautor">
                         {apiSnoopy.listadoServicios &&
                             [
-                                // Array.from --> el conjunto lo convertimos en un arreglo
                                 <option>todos</option>,
                                 Array.from(new Set(apiSnoopy.listadoServicios.map(item => item.autor_id)))
                                     .map(item => <option>{item}</option>)
@@ -164,8 +158,6 @@ function ListadoServiciosIntegracion() {
                 </div>
 
                 <br></br>
-
-                {/* implementacion de una busque del nombre del servicio por su id */}
                 <label className="form-label">ID NOMBRE SERVICIO</label>
                 <div className="input-group mb-3">
                     <input
@@ -311,27 +303,21 @@ function ListadoServiciosIntegracion() {
                                         {comprobar(servicio.genera_alarma_por_incumplimiento_politica)}
                                     </td>
                                     <td>
-                                        {/* {servicio.url_backend_prd} */}
                                         {comprobar(servicio.url_backend_prd)}
                                     </td>
                                     <td>
-                                        {/* {servicio.url_servicio_prd} */}
                                         {comprobar(servicio.url_servicio_prd)}
                                     </td>
                                     <td>
-                                        {/* {servicio.url_backend_qa} */}
                                         {comprobar(servicio.url_backend_qa)}
                                     </td>
                                     <td>
-                                        {/* {servicio.url_servicio_qa} */}
                                         {comprobar(servicio.url_servicio_qa)}
                                     </td>
                                     <td>
-                                        {/* {servicio.url_backend_dev} */}
                                         {comprobar(servicio.url_backend_dev)}
                                     </td>
                                     <td>
-                                        {/* {servicio.url_servicio_dev} */}
                                         {comprobar(servicio.url_servicio_dev)}
                                     </td>
                                     <td>
@@ -339,13 +325,11 @@ function ListadoServiciosIntegracion() {
                                             className="btn btn-link btn-sm fs-6"
                                             onClick={() => navigate(`/servicio-editar/${servicio.id}`)}
                                         >
-                                            {/* <span className="material-icons">edit</span> */}
                                             <Edit2 size={12} />
                                         </button>
                                         <button className="btn btn-link btn-sm fs-6"
                                             onClick={() => navigate(`/servicio-ver/${servicio.id}`)}
                                         >
-                                            {/* <i className="size-18" data-feather="archive"></i> */}
                                             <Eye size={12} />
                                         </button>
                                         <button className="btn btn-link btn-sm fs-6"
