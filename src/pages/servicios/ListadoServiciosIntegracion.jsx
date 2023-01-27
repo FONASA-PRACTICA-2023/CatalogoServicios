@@ -72,7 +72,7 @@ function ListadoServiciosIntegracion() {
 
     return (
       <div>
-        <h2>Catalogo de Servicios</h2>
+        <h2 className="mt-3">Catalogo de Servicios</h2>
         <div className="overflow-scroll text-center" style={{fontSize: "14px"}}>
           <FilterableTable
             tableClassName="table table-bordered table-hover"
