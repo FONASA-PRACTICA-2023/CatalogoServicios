@@ -73,7 +73,7 @@ function ListadoServiciosIntegracion() {
     return (
       <div>
         <h2>Catalogo de Servicios</h2>
-        <div className="overflow-scroll text-center">
+        <div className="overflow-scroll text-center" style={{fontSize: "14px"}}>
           <FilterableTable
             tableClassName="table table-bordered table-hover"
             namespace="People"
