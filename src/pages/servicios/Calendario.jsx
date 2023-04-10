@@ -13,7 +13,7 @@ function Calendario() {
     const [estadoModalObservaciones, setEstadoModalObservaciones] = useState(false);
     const [tituloEvento, setTituloEvento] = useState("");
     const [detallesDelEvento, setDetallesDelEvento] = useState({});
-    const servicio = 'https://api.fonasa.cl/cmdb-api/pasos-a-produccion';
+    const servicio = 'https://api.fonasa.cl/cmdb/api/pasos-a-produccion';
 
     const datosDelEvento = {
         titulo: "",
