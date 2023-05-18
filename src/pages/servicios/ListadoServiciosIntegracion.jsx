@@ -64,7 +64,7 @@ function ListadoServiciosIntegracion() {
         fetch("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio", requestOptions)
           .then(response => response.text())
           .then(result => {
-            console.log(result);
+            // console.log(result);
             // Vuelve a cargar los datos después de eliminar
             fetchData();
           })

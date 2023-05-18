@@ -20,7 +20,7 @@ const useApiSnoopy = () => {
   const [loading, setLoading] = useState(false);
 
   const getGenerico = async (url) => {
-    console.log("getGenerico >> " + url);
+    // console.log("getGenerico >> " + url);
     setLoading(true);
     try {
       let res = await axios.get(url, { headers: header_autenticado });
@@ -33,14 +33,14 @@ const useApiSnoopy = () => {
       console.log("error", error);
     }
     setLoading(false);
-    console.log(data);
+    // console.log(data);
     return data;
   };
 
   const deleteGenerico = async (url, formulario) => {
-    console.log("deleteGenerico >> " + url);
+    // console.log("deleteGenerico >> " + url);
     setLoading(true);
-    console.log(header_autenticado);
+    // console.log(header_autenticado);
     try {
       await axios
         .delete(url, { headers: header_autenticado, data: formulario })
@@ -57,7 +57,7 @@ const useApiSnoopy = () => {
   };
 
   const postGenerico = async (url, formulario) => {
-    console.log("postGenerico >> " + url);
+    // console.log("postGenerico >> " + url);
     setLoading(true);
     try {
       await axios
@@ -87,7 +87,7 @@ const useApiSnoopy = () => {
       password: password,
     };
 
-    console.log("loginUsuarioExterno >> " + url);
+    // console.log("loginUsuarioExterno >> " + url);
     setLoading(true);
     try {
       await axios.post(url, login_payload).then((res) => {
@@ -97,7 +97,7 @@ const useApiSnoopy = () => {
         login(res.data);
       });
     } catch (error) {
-      console.log(error.response.data);
+      // console.log(error.response.data);
       setError(error.response.data.mensaje);
       setLoading(false);
     }

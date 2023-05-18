@@ -16,7 +16,7 @@ export const FormularioLogin = () => {
   );
   const iniciarSesion = async (usuarioLogeado) => {
     try {
-      console.log("FormularioLogin::iniciarSesion", usuarioLogeado);
+      // console.log("FormularioLogin::iniciarSesion", usuarioLogeado);
       await login(usuarioLogeado);
     } catch (error) {
       console.log(error);
