@@ -67,7 +67,7 @@ function FormularioServicioIntegracion(props) {
     try {
       const response = await fetch("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio", requestOptions);
       if (response.ok) {
-        console.log(await response.text());
+        // console.log(await response.text());
         // Navegar a la página deseada después de enviar el formulario
         navigate('/');
       } else {
@@ -81,12 +81,12 @@ function FormularioServicioIntegracion(props) {
         text: error.message
       });
     }
-    console.log(formulario);
+    // console.log(formulario);
   };
 
   return (
-    <div class="card mt-3 rounded shadow">
-      <div class="card-body">
+    <div className="card mt-3 rounded shadow">
+      <div className="card-body">
         <form noValidate onSubmit={handleSubmit}>
           <div className="row">
             {/* NOMBRE */}

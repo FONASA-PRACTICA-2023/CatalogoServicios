@@ -68,8 +68,8 @@ function Calendario() {
     }
     return (
         <div className='container'>
-            <div class="card">
-                <div class="card-body"></div>
+            <div className="card">
+                <div className="card-body"></div>
                 <div className="d-block mt-3" style={{ width: "80%" }}>
                     <FullCalendar
                         plugins={calendarPlugins}

@@ -73,7 +73,7 @@ function FormularioServicioIntegracion() {
         try {
             const response = await fetch(`https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio/${nombre}`, requestOptions);
             if (response.ok) {
-                console.log(await response.text());
+                // console.log(await response.text());
                 navigate('/');
             } else {
                 throw new Error('Hubo un error al enviar el formulario.');
@@ -86,12 +86,12 @@ function FormularioServicioIntegracion() {
                 text: error.message
             });
         }
-        console.log(formulario);
+        // console.log(formulario);
     };
 
     useEffect(() => {
         getData();
-        console.log(nombre);
+        // console.log(nombre);
 
         // Deshabilitar el formulario cuando se accede a la página de visualización
         if (window.location.pathname === `/servicio-ver/${nombre}`) {
