@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import {Link} from "react-router-dom";
 
 function FormularioServicioIntegracion() {
     const { nombre } = useParams();
@@ -649,7 +650,8 @@ function FormularioServicioIntegracion() {
                             </div>
                         </div>
                     </div>
-                    <button disabled={formularioDeshabilitado} type="submit">Actualizar</button>
+                    <button disabled={formularioDeshabilitado} type="submit" className="btn btn-primary">Actualizar</button>
+                    <Link to={"/"} class="btn btn-secondary">Cancelar</Link>
                 </form>
             </div >
         </div >

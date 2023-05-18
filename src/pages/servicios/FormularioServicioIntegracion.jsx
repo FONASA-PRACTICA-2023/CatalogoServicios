@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 function FormularioServicioIntegracion(props) {
@@ -613,6 +613,7 @@ function FormularioServicioIntegracion(props) {
           </div>
           <div className="col-md-12">
             <button type="submit" className="btn btn-primary">Enviar</button>
+            <Link to={"/"} class="btn btn-secondary">Cancelar</Link>
           </div>
         </form>
         <hr />
