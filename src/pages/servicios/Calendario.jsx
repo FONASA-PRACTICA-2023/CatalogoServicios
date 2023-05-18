@@ -3,7 +3,6 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import ModalDescripcionEventos from './ModalDescripcionEventos';
 import { FcCalendar } from "react-icons/fc";
 
 function Calendario() {
@@ -69,27 +68,23 @@ function Calendario() {
     }
     return (
         <div className='container'>
-            <div className="d-block" style={{ width: "80%" }}>
-                <h1>Calendario de Pasos a Producción</h1>
-                <FullCalendar
-                    plugins={calendarPlugins}
-                    initialView="dayGridMonth"
-                    headerToolbar={{
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                    }}
-                    eventClick={handleEventClick}
-                    eventBorderColor={"#000"}
-                    events={events}
-                />
+            <div class="card">
+                <div class="card-body"></div>
+                <div className="d-block mt-3" style={{ width: "80%" }}>
+                    <FullCalendar
+                        plugins={calendarPlugins}
+                        initialView="dayGridMonth"
+                        headerToolbar={{
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        }}
+                        eventClick={handleEventClick}
+                        eventBorderColor={"#000"}
+                        events={events}
+                    />
+                </div>
             </div>
-            <ModalDescripcionEventos
-                estado={estadoModalObservaciones}
-                cambiarEstado={setEstadoModalObservaciones}
-                tituloEvento={tituloEvento}
-                detallesEvento={detallesDelEvento}
-            />
         </div>
     )
 }

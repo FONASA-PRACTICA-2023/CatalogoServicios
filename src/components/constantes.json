@@ -8,18 +8,6 @@
       "path": "/servicio-crear"
     },
     {
-      "label": "Servicios con su URL",
-      "path": "/servicio-url"
-    },
-    {
-      "label": "Tablas de Informaciones",
-      "path": "/tabla-informacion"
-    },
-    {
-      "label": "Graficos",
-      "path": "/graficos"
-    },
-    {
       "label": "Calendario",
       "path": "/calendario"
     },
