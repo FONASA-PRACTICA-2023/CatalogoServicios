@@ -159,7 +159,7 @@ function FormularioServicioIntegracion(props) {
               <label className="form-label">
                 Metodo Http<span className="text-danger fw-bold fs-5">*</span>
               </label>
-              {["get", "post", "put", "delete", "otro"].map((value) => (
+              {["GET", "POST", "PUT", "DELETE", "OTRO"].map((value) => (
                 <div className="form-check" key={value}>
                   <input
                     className="form-check-input"
@@ -182,7 +182,7 @@ function FormularioServicioIntegracion(props) {
               <label className="form-label">
                 Tipo Protocolo<span className="text-danger fw-bold fs-5">*</span>
               </label>
-              {["rest", "soap"].map((value) => (
+              {["REST", "SOAP"].map((value) => (
                 <div className="form-check" key={value}>
                   <input className="form-check-input" value={value}
                     checked={formulario.tipo_protocolo === value}
