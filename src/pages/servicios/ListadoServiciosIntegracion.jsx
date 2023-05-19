@@ -31,9 +31,10 @@ function ListadoServiciosIntegracion() {
   const filtrarDatos = (dato) => {
     const filtroLowerCase = filtro.toLowerCase();
     return (
-      dato.nombre.toLowerCase().includes(filtroLowerCase) ||
-      dato.autor_id.toLowerCase().includes(filtroLowerCase) ||
-      dato.fecha_creacion.toLowerCase().includes(filtroLowerCase)
+      // dato.nombre.toLowerCase().includes(filtroLowerCase) ||
+      // dato.autor_id.toLowerCase().includes(filtroLowerCase) ||
+      // dato.fecha_creacion.toLowerCase().includes(filtroLowerCase)||
+      dato.numerador.toLowerCase().includes(filtroLowerCase)
     );
   };
 
@@ -94,7 +95,7 @@ function ListadoServiciosIntegracion() {
       <input
         type="text"
         className="form-control mb-3"
-        placeholder="Filtrar por nombre, autor o fecha de creación"
+        placeholder="Filtrar por numerador"
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
       />
