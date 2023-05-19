@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 function ListadoServiciosIntegracion() {
   const [datos, setDatos] = useState([]);
   const [filtro, setFiltro] = useState("");
+  const [totalFilas, setTotalFilas] = useState(0);
+
 
   useEffect(() => {
     fetchData();
@@ -19,6 +21,8 @@ function ListadoServiciosIntegracion() {
       .then(response => response.json())
       .then(data => {
         setDatos(data.registros);
+        setTotalFilas(data.registros.length); // Actualizar el contador de filas
+
         // console.log(data.registros);
       })
       .catch(error => console.log('Error:', error));
@@ -83,12 +87,10 @@ function ListadoServiciosIntegracion() {
   const copiarURL = (url) => {
     navigator.clipboard.writeText(url);
   };
-
   return (
-
     <div>
       <h2>Listado de Servicios</h2>
-
+      <p>({totalFilas})</p>
       <input
         type="text"
         className="form-control mb-3"
@@ -96,7 +98,9 @@ function ListadoServiciosIntegracion() {
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
       />
+      
       <table className="table ">
+      
         <thead>
           <tr>
             <th>Numerador</th>

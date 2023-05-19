@@ -9,6 +9,7 @@ import FormularioServicioIntegracion from "./pages/servicios/FormularioServicioI
 import ListadoServiciosIntegracion from "./pages/servicios/ListadoServiciosIntegracion";
 import Calendario from "./pages/servicios/Calendario";
 import Editar from "./pages/servicios/Servicioeditar";
+import Monitor from "./pages/servicios/MonitorLogin";
 
 import { CloudOff } from 'react-feather';
 
@@ -30,6 +31,10 @@ function AplicacionSnoopy() {
             <Route
               path="/servicio-ver/:nombre"
               element={<Editar formularioDeshabilitado={true}/>}
+            />
+            <Route
+              path="/prueba"
+              element={<Monitor/>}
             />
             <Route
               path="/servicio-editar/:nombre"
