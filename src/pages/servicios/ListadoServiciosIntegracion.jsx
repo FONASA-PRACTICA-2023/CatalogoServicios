@@ -4,13 +4,15 @@ import { BiEdit, BiTrash } from 'react-icons/bi';
 import { BsFillEyeFill } from 'react-icons/bs';
 import { AiOutlineCopy } from 'react-icons/ai';
 import Swal from 'sweetalert2';
+import { CgArrowsExchangeV } from 'react-icons/cg';
 
 
 function ListadoServiciosIntegracion() {
   const [datos, setDatos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [totalFilas, setTotalFilas] = useState(0);
-
+  const [datosOrdenados, setDatosOrdenados] = useState([]);
+  const [ordenAscendente, setOrdenAscendente] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -20,23 +22,33 @@ function ListadoServiciosIntegracion() {
     fetch("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio-buscar-todos")
       .then(response => response.json())
       .then(data => {
+        const datosOrdenadosPorNumerador = [...data.registros];
+        datosOrdenadosPorNumerador.sort((a, b) => parseInt(a.numerador) - parseInt(b.numerador));
         setDatos(data.registros);
-        setTotalFilas(data.registros.length); // Actualizar el contador de filas
-
-        // console.log(data.registros);
+        setDatosOrdenados(datosOrdenadosPorNumerador);
+        setTotalFilas(data.registros.length);
       })
       .catch(error => console.log('Error:', error));
   }
 
+  const ordenarPorNumerador = () => {
+    const datosOrdenadosPorNumerador = [...datosOrdenados];
+    datosOrdenadosPorNumerador.sort((a, b) => {
+      const orden = ordenAscendente ? 1 : -1;
+      return orden * (parseInt(a.numerador) - parseInt(b.numerador));
+    });
+    setDatosOrdenados(datosOrdenadosPorNumerador);
+    setOrdenAscendente(!ordenAscendente);
+  };
+
   const filtrarDatos = (dato) => {
     const filtroLowerCase = filtro.toLowerCase();
     return (
-      // dato.nombre.toLowerCase().includes(filtroLowerCase) ||
-      // dato.autor_id.toLowerCase().includes(filtroLowerCase) ||
-      // dato.fecha_creacion.toLowerCase().includes(filtroLowerCase)||
+      dato.nombre.toLowerCase().includes(filtroLowerCase) ||
       dato.numerador.toLowerCase().includes(filtroLowerCase)
     );
   };
+
 
   const eliminar = (idServicio) => {
     // Mostrar el swal de confirmación
@@ -99,12 +111,10 @@ function ListadoServiciosIntegracion() {
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
       />
-      
       <table className="table ">
-      
         <thead>
           <tr>
-            <th>Numerador</th>
+            <th onClick={ordenarPorNumerador} className="order-icon">Numerador<CgArrowsExchangeV /></th>
             <th>Nombre</th>
             <th>Autor</th>
             <th>url_servicio_prd</th>
@@ -115,7 +125,7 @@ function ListadoServiciosIntegracion() {
           </tr>
         </thead>
         <tbody>
-          {datos.filter(filtrarDatos).map((servicio) => (
+          {datosOrdenados.filter(filtrarDatos).map((servicio) => (
             <>
               <div className="modal fade" id={`staticBackdrop-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel-${servicio.id_servicio}`} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-scrollable">
@@ -198,17 +208,13 @@ function ListadoServiciosIntegracion() {
                   <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
                     {servicio.url_servicio_prd.substring(0, 20)}...
                   </button>
-                  <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_servicio_prd)}>
-                    <AiOutlineCopy />
-                  </button>
+
                 </td>
                 <td>
                   <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop2-${servicio.id_servicio}`}>
                     {servicio.url_backend_prd.substring(0, 20)}...
                   </button>
-                  <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_backend_prd)}>
-                    <AiOutlineCopy />
-                  </button>
+
                 </td>
                 <td>{servicio.fecha_creacion}</td>
                 <td>{servicio.fecha_actualizacion}</td>

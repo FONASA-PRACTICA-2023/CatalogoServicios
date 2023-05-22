@@ -87,13 +87,14 @@ function FormularioServicioIntegracion() {
                 text: error.message
             });
         }
-        // console.log(formulario);
+        
     };
 
     useEffect(() => {
         getData();
-        // console.log(nombre);
 
+        // console.log(nombre);
+        console.log(formulario);
         // Deshabilitar el formulario cuando se accede a la página de visualización
         if (window.location.pathname === `/servicio-ver/${nombre}`) {
             setFormularioDeshabilitado(true);
