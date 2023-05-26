@@ -11,6 +11,10 @@ function ListadoServiciosIntegracion() {
   const [datos, setDatos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [totalFilas, setTotalFilas] = useState(0);
+  const [get, setGet] = useState(0);
+  const [post, setPost] = useState(0);
+  const [soap, setSoap] = useState(0);
+  const [rest, setRest] = useState(0);
   const [datosOrdenados, setDatosOrdenados] = useState([]);
   const [ordenAscendente, setOrdenAscendente] = useState(true);
 
@@ -27,6 +31,23 @@ function ListadoServiciosIntegracion() {
         setDatos(data.registros);
         setDatosOrdenados(datosOrdenadosPorNumerador);
         setTotalFilas(data.registros.length);
+
+        const postObjects = data.registros.filter(obj => obj.metodo_http === "POST");
+        const countPostObjects = postObjects.length;
+        setPost(countPostObjects);
+
+        const getObjects = data.registros.filter(obj => obj.metodo_http === "GET");
+        const countGetObjects = getObjects.length;
+        setGet(countGetObjects);
+
+        const soapObjects = data.registros.filter(obj => obj.tipo_protocolo === "SOAP");
+        const countSoapObjects = soapObjects.length;
+        setSoap(countSoapObjects);
+
+        const restObjects = data.registros.filter(obj => obj.tipo_protocolo === "REST");
+        const countRestObjects = restObjects.length;
+        setRest(countRestObjects);
+
       })
       .catch(error => console.log('Error:', error));
   }
@@ -45,7 +66,8 @@ function ListadoServiciosIntegracion() {
     const filtroLowerCase = filtro.toLowerCase();
     return (
       dato.nombre.toLowerCase().includes(filtroLowerCase) ||
-      dato.numerador.toLowerCase().includes(filtroLowerCase)
+      dato.numerador.toLowerCase().includes(filtroLowerCase) ||
+      dato.metodo_http.toLowerCase().includes(filtroLowerCase)
     );
   };
 
@@ -103,7 +125,24 @@ function ListadoServiciosIntegracion() {
   return (
     <div>
       <h2>Listado de Servicios</h2>
-      <p>({totalFilas})</p>
+
+      <tr>
+        <td>
+          <h5>Total de servicios({totalFilas})</h5>
+        </td>
+        {/* <td>
+          <h5>TOTAL GET({get})</h5>
+        </td>
+        <td>
+          <h5>TOTAL POST({post})</h5>
+        </td>
+        <td>
+          <h5>TOTAL SOAP({soap})</h5>
+        </td>
+        <td>
+          <h5>TOTAL REST({rest})</h5>
+        </td> */}
+      </tr>
       <input
         type="text"
         className="form-control mb-3"
@@ -243,7 +282,7 @@ function ListadoServiciosIntegracion() {
                 <td>{servicio.tipo_protocolo}</td>
                 <td>{servicio.metodo_http}</td>
                 <td>{servicio.fecha_creacion}</td>
-                
+
                 <td>
                   <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
                   <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
