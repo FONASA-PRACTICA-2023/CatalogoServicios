@@ -127,7 +127,7 @@ function ListadoServiciosIntegracion() {
         <tbody>
           {datosOrdenados.filter(filtrarDatos).map((servicio) => (
             <>
-              <div className="modal fade" id={`staticBackdrop-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel-${servicio.id_servicio}`} aria-hidden="true">
+              <div className="modal fade" id={`staticBackdrop-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-scrollable">
                   <div className="modal-content">
                     <div className="modal-header">
@@ -135,7 +135,30 @@ function ListadoServiciosIntegracion() {
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                      {servicio.url_servicio_prd}
+                      Url
+                      <div className="card">
+                        <div className="card-body">
+                          <p className="card-text">{servicio.url_servicio_prd} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_servicio_prd)}>
+                            <AiOutlineCopy />
+                          </button></p>
+                        </div>
+                      </div>
+                      Request
+                      <div className="card">
+                        <div className="card-body">
+                          <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
+                            <AiOutlineCopy />
+                          </button> </p>
+                        </div>
+                      </div>
+                      Response
+                      <div className="card">
+                        <div className="card-body">
+                          <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
+                            <AiOutlineCopy />
+                          </button></p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import ListadoServiciosIntegracion from "./pages/servicios/ListadoServiciosInteg
 import Calendario from "./pages/servicios/Calendario";
 import Editar from "./pages/servicios/Servicioeditar";
 import Monitor from "./pages/servicios/MonitorLogin";
+import Grafico from "./pages/servicios/Grafico";
 
 import { CloudOff } from 'react-feather';
 
@@ -51,6 +52,10 @@ function AplicacionSnoopy() {
             <Route
               path="/calendario"
               element={<Calendario />}
+            />
+            <Route
+              path="/graficos"
+              element={<Grafico />}
             />
           </Route>
           <Route path="*" element=
