@@ -119,8 +119,9 @@ function ListadoServiciosIntegracion() {
             <th>Autor</th>
             <th>url_servicio_prd</th>
             <th>url_backend_prd</th>
+            <th>tipo_protocolo</th>
+            <th>metodo_http</th>
             <th>Fecha de Creación</th>
-            <th>Fecha de Actualización</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -239,8 +240,10 @@ function ListadoServiciosIntegracion() {
                   </button>
 
                 </td>
+                <td>{servicio.tipo_protocolo}</td>
+                <td>{servicio.metodo_http}</td>
                 <td>{servicio.fecha_creacion}</td>
-                <td>{servicio.fecha_actualizacion}</td>
+                
                 <td>
                   <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
                   <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
