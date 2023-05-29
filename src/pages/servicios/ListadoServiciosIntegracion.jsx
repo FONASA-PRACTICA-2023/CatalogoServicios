@@ -17,12 +17,15 @@ function ListadoServiciosIntegracion() {
   const [rest, setRest] = useState(0);
   const [datosOrdenados, setDatosOrdenados] = useState([]);
   const [ordenAscendente, setOrdenAscendente] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = () => {
+    setIsLoading(true);
     fetch("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio-buscar-todos")
       .then(response => response.json())
       .then(data => {
@@ -47,6 +50,8 @@ function ListadoServiciosIntegracion() {
         const restObjects = data.registros.filter(obj => obj.tipo_protocolo === "REST");
         const countRestObjects = restObjects.length;
         setRest(countRestObjects);
+
+        setIsLoading(false);
 
       })
       .catch(error => console.log('Error:', error));
@@ -125,175 +130,139 @@ function ListadoServiciosIntegracion() {
   return (
     <div>
       <h2>Listado de Servicios</h2>
-
       <tr>
         <td>
           <h5>Total de servicios({totalFilas})</h5>
         </td>
-        {/* <td>
-          <h5>TOTAL GET({get})</h5>
-        </td>
-        <td>
-          <h5>TOTAL POST({post})</h5>
-        </td>
-        <td>
-          <h5>TOTAL SOAP({soap})</h5>
-        </td>
-        <td>
-          <h5>TOTAL REST({rest})</h5>
-        </td> */}
       </tr>
-      <input
-        type="text"
-        className="form-control mb-3"
-        placeholder="Filtrar por numerador"
-        value={filtro}
-        onChange={(e) => setFiltro(e.target.value)}
-      />
-      <table className="table ">
-        <thead>
-          <tr>
-            <th onClick={ordenarPorNumerador} className="order-icon">Numerador<CgArrowsExchangeV /></th>
-            <th>Nombre</th>
-            <th>url_servicio_prd</th>
-            <th>url_backend_prd</th>
-            <th>tipo_protocolo</th>
-            <th>metodo_http</th>
-            <th>Fecha de Creación</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {datosOrdenados.filter(filtrarDatos).map((servicio) => (
-            <>
-              <div className="modal fade" id={`staticBackdrop-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
-                <div className="modal-dialog modal-dialog-scrollable">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id={`staticBackdropLabel-${servicio.id_servicio}`}>URL del servicio</h5>
-                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                      Url
-                      <div className="card">
-                        <div className="card-body">
-                          <p className="card-text">{servicio.url_servicio_prd} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_servicio_prd)}>
-                            <AiOutlineCopy />
-                          </button></p>
-                        </div>
+      <input type="text" className="form-control mb-3" placeholder="Filtrar por numerador" value={filtro} onChange={(e) => setFiltro(e.target.value)} />
+      {isLoading ? (
+        <div class="text-center">
+          <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+          </button>
+        </div>
+      ) : (
+        <table className="table ">
+          <thead>
+            <tr>
+              <th onClick={ordenarPorNumerador} className="order-icon">Numerador<CgArrowsExchangeV /></th>
+              <th>Nombre</th>
+              <th>url_servicio_prd</th>
+              <th>url_backend_prd</th>
+              <th>tipo_protocolo</th>
+              <th>metodo_http</th>
+              <th>Fecha de Creación</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {datosOrdenados.filter(filtrarDatos).map((servicio) => (
+              <>
+                <div className="modal fade" id={`staticBackdrop-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id={`staticBackdropLabel-${servicio.id_servicio}`}>URL del servicio</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      Request
-                      <div className="card">
-                        <div className="card-body">
-                          <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
-                            <AiOutlineCopy />
-                          </button> </p>
+                      <div className="modal-body">
+                        Url
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.url_servicio_prd} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_servicio_prd)}>
+                              <AiOutlineCopy />
+                            </button></p>
+                          </div>
                         </div>
-                      </div>
-                      Response
-                      <div className="card">
-                        <div className="card-body">
-                          <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
-                            <AiOutlineCopy />
-                          </button></p>
+                        Request
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
+                              <AiOutlineCopy />
+                            </button> </p>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="modal fade" id={`staticBackdrop4-${servicio.numerador}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel-${servicio.id_servicio}`} aria-hidden="true">
-                <div className="modal-dialog modal-dialog-scrollable">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id={`staticBackdropLabel4-${servicio.numerador}`}>Status: {servicio.id_servicio}</h5>
-                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                      <p>url_backend_prd: {servicio.url_backend_prd ? '✓' : 'X'}</p>
-                      <p>url_servicio_prd: {servicio.url_servicio_prd ? '✓' : 'X'}</p>
-                      <p>url_backend_qa: {servicio.url_backend_qa ? '✓' : 'X'}</p>
-                      <p>url_backend_dev: {servicio.url_servicio_qa ? '✓' : 'X'}</p>
-                      <p>url_servicio_dev: {servicio.url_servicio_dev ? '✓' : 'X'}</p>
-                      <p>pregunta: {servicio.pregunta ? '✓' : 'X'}</p>
-                      <p>respuesta: {servicio.respuesta ? '✓' : 'X'}</p>
-                      <p>habilita_cors: {servicio.habilita_cors ? '✓' : 'X'}</p>
-                      <p>validacion_jwt: {servicio.validacion_jwt ? '✓' : 'X'}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="modal fade" id={`staticBackdrop2-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
-                <div className="modal-dialog modal-dialog-scrollable">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id={`staticBackdropLabel2-${servicio.id_servicio}`}>URL del backend</h5>
-                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                      Url
-                      <div className="card">
-                        <div className="card-body">
-                          <p className="card-text">{servicio.url_backend_prd} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_backend_prd)}>
-                            <AiOutlineCopy />
-                          </button></p>
-                        </div>
-                      </div>
-                      Request
-                      <div className="card">
-                        <div className="card-body">
-                          <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
-                            <AiOutlineCopy />
-                          </button> </p>
-                        </div>
-                      </div>
-                      Response
-                      <div className="card">
-                        <div className="card-body">
-                          <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
-                            <AiOutlineCopy />
-                          </button></p>
+                        Response
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
+                              <AiOutlineCopy />
+                            </button></p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <tr key={servicio.id_servicio}>
-                <td>
-                  {servicio.numerador}
-               </td>
-                <td>
-                  {servicio.nombre.substring(0, 30)}...
-                </td>
-                
-                <td>
-                  <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
-                    {servicio.url_servicio_prd.substring(0, 20)}...
-                  </button>
-
-                </td>
-                <td>
-                  <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop2-${servicio.id_servicio}`}>
-                    {servicio.url_backend_prd.substring(0, 20)}...
-                  </button>
-
-                </td>
-                <td>{servicio.tipo_protocolo}</td>
-                <td>{servicio.metodo_http}</td>
-                <td>{servicio.fecha_creacion}</td>
-
-                <td>
-                  <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
-                  <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
-                  <button className="btn" onClick={() => eliminar(servicio.id_servicio)}><BiTrash /></button>
-                </td>
-              </tr>
-            </>
-          ))}
-        </tbody>
-      </table>
+                <div className="modal fade" id={`staticBackdrop2-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id={`staticBackdropLabel2-${servicio.id_servicio}`}>URL del backend</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        Url
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.url_backend_prd} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_backend_prd)}>
+                              <AiOutlineCopy />
+                            </button></p>
+                          </div>
+                        </div>
+                        Request
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
+                              <AiOutlineCopy />
+                            </button> </p>
+                          </div>
+                        </div>
+                        Response
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
+                              <AiOutlineCopy />
+                            </button></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <tr key={servicio.id_servicio}>
+                  <td>
+                    {servicio.numerador}
+                  </td>
+                  <td>
+                    {servicio.nombre.substring(0, 30)}...
+                  </td>
+                  <td>
+                    <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
+                      {servicio.url_servicio_prd.substring(0, 20)}...
+                    </button>
+                  </td>
+                  <td>
+                    <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop2-${servicio.id_servicio}`}>
+                      {servicio.url_backend_prd.substring(0, 20)}...
+                    </button>
+                  </td>
+                  <td>{servicio.tipo_protocolo}</td>
+                  <td>{servicio.metodo_http}</td>
+                  <td>{servicio.fecha_creacion}</td>
+                  <td>
+                    <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
+                    <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
+                    <button className="btn" onClick={() => eliminar(servicio.id_servicio)}><BiTrash /></button>
+                  </td>
+                </tr>
+              </>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

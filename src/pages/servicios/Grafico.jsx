@@ -3,39 +3,27 @@ import axios from "axios";
 import { Line } from "react-chartjs-2";
 
 function ExampleChart() {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio-buscar-todos");
-      setData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const chartData = {
-    labels: data.map((item) => item.label),
-    datasets: [
-      {
-        label: "Data",
-        data: data.map((item) => item.value),
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
 
   return (
-    <div>
-      <h2>Ejemplo de gráfico</h2>
-      <Line data={chartData} />
-    </div>
+    <>
+      <div class="card" aria-hidden="true">
+          <div class="card-body">
+            <h5 class="card-title placeholder-glow">
+              <span class="placeholder col-6"></span>
+            </h5>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-7"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-4"></span>
+              <span class="placeholder col-6"></span>
+              <span class="placeholder col-8"></span>
+            </p>
+            <a class="btn btn-primary disabled placeholder col-6"></a>
+          </div>
+      </div>
+    </>
+
   );
 }
 

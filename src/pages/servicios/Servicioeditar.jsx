@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function FormularioServicioIntegracion() {
     const { nombre } = useParams();
     const [formularioDeshabilitado, setFormularioDeshabilitado] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [formulario, setFormulario] = useState({
         tipo_autenticacion: "",
@@ -50,6 +51,7 @@ function FormularioServicioIntegracion() {
     };
 
     const getData = () => {
+        setIsLoading(true);
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -59,6 +61,7 @@ function FormularioServicioIntegracion() {
             .then(response => response.json())
             .then(result => setFormulario(result.registros))
             .catch(error => console.log('error', error));
+        setIsLoading(false);
     }
 
     const handleSubmit = async (e) => {
@@ -87,7 +90,7 @@ function FormularioServicioIntegracion() {
                 text: error.message
             });
         }
-        
+
     };
 
     useEffect(() => {
@@ -104,7 +107,7 @@ function FormularioServicioIntegracion() {
 
 
     return (
-        <div className="card mt-3 rounded shadow">
+        <div className="card mt-3 rounded shadow " aria-hidden="true">
             <div className="card-body">
                 <form onSubmit={handleSubmit}>
                     <div className="row">
