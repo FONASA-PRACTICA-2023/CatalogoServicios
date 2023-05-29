@@ -151,7 +151,7 @@ function ListadoServiciosIntegracion() {
               <th>Nombre</th>
               <th>url_servicio_prd</th>
               <th>url_backend_prd</th>
-              {/* <th>Fecha de Creación</th> */}
+              <th>Fecha de Creación</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -235,8 +235,14 @@ function ListadoServiciosIntegracion() {
                     {servicio.numerador}
                   </td>
                   <td>
-                    {servicio.nombre.substring(0, 30)}...  /{servicio.tipo_protocolo}-{servicio.metodo_http}
+                    <div>
+                      {servicio.nombre}
+                    </div>
+                    <h6 className="text-muted fs-6">
+                      /{servicio.tipo_protocolo}-{servicio.metodo_http}
+                    </h6>
                   </td>
+
                   <td>
                     <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
                       {servicio.url_servicio_prd.substring(0, 30)}...
@@ -247,8 +253,7 @@ function ListadoServiciosIntegracion() {
                       {servicio.url_backend_prd.substring(0, 30)}...
                     </button>
                   </td>
-
-                  {/* <td>{servicio.fecha_creacion}</td> */}
+                  <td>{servicio.fecha_creacion}</td>
                   <td>
                     <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
                     <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
