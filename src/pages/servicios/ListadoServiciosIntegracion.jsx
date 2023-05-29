@@ -155,7 +155,6 @@ function ListadoServiciosIntegracion() {
           <tr>
             <th onClick={ordenarPorNumerador} className="order-icon">Numerador<CgArrowsExchangeV /></th>
             <th>Nombre</th>
-            <th>Autor</th>
             <th>url_servicio_prd</th>
             <th>url_backend_prd</th>
             <th>tipo_protocolo</th>
@@ -262,11 +261,13 @@ function ListadoServiciosIntegracion() {
                 </div>
               </div>
               <tr key={servicio.id_servicio}>
-                <td><button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop4-${servicio.numerador}`}>
+                <td>
                   {servicio.numerador}
-                </button></td>
-                <td>{servicio.nombre}</td>
-                <td>{servicio.autor_id}</td>
+               </td>
+                <td>
+                  {servicio.nombre.substring(0, 30)}...
+                </td>
+                
                 <td>
                   <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
                     {servicio.url_servicio_prd.substring(0, 20)}...
