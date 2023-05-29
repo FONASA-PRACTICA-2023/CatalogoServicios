@@ -108,7 +108,7 @@ function FormularioServicioIntegracion() {
 
     return (
         <div className="card mt-3 rounded shadow " aria-hidden="true">
-            <div className="card-body">
+            <div className="card-body placeholder-glow">
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         {/* NOMBRE */}

@@ -151,9 +151,7 @@ function ListadoServiciosIntegracion() {
               <th>Nombre</th>
               <th>url_servicio_prd</th>
               <th>url_backend_prd</th>
-              <th>tipo_protocolo</th>
-              <th>metodo_http</th>
-              <th>Fecha de Creación</th>
+              {/* <th>Fecha de Creación</th> */}
               <th>Acciones</th>
             </tr>
           </thead>
@@ -164,7 +162,7 @@ function ListadoServiciosIntegracion() {
                   <div className="modal-dialog modal-dialog-scrollable">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h5 className="modal-title" id={`staticBackdropLabel-${servicio.id_servicio}`}>URL del servicio</h5>
+                        <h5 className="modal-title" id={`staticBackdropLabel-${servicio.id_servicio}`}>URL del servicio: {servicio.id_servicio}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body">
@@ -200,7 +198,7 @@ function ListadoServiciosIntegracion() {
                   <div className="modal-dialog modal-dialog-scrollable">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h5 className="modal-title" id={`staticBackdropLabel2-${servicio.id_servicio}`}>URL del backend</h5>
+                        <h5 className="modal-title" id={`staticBackdropLabel2-${servicio.id_servicio}`}>URL del backend: {servicio.id_servicio}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body">
@@ -237,21 +235,20 @@ function ListadoServiciosIntegracion() {
                     {servicio.numerador}
                   </td>
                   <td>
-                    {servicio.nombre.substring(0, 30)}...
+                    {servicio.nombre.substring(0, 30)}...  /{servicio.tipo_protocolo}-{servicio.metodo_http}
                   </td>
                   <td>
                     <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
-                      {servicio.url_servicio_prd.substring(0, 20)}...
+                      {servicio.url_servicio_prd.substring(0, 30)}...
                     </button>
                   </td>
                   <td>
                     <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop2-${servicio.id_servicio}`}>
-                      {servicio.url_backend_prd.substring(0, 20)}...
+                      {servicio.url_backend_prd.substring(0, 30)}...
                     </button>
                   </td>
-                  <td>{servicio.tipo_protocolo}</td>
-                  <td>{servicio.metodo_http}</td>
-                  <td>{servicio.fecha_creacion}</td>
+
+                  {/* <td>{servicio.fecha_creacion}</td> */}
                   <td>
                     <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
                     <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
