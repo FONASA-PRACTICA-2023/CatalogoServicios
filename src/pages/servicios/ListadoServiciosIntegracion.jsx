@@ -236,7 +236,7 @@ function ListadoServiciosIntegracion() {
                   </td>
                   <td>
                     <div>
-                      {servicio.nombre}
+                      {servicio.nombre.substring(0, 30)}...
                     </div>
                     <h6 className="text-muted fs-6">
                       /{servicio.tipo_protocolo}-{servicio.metodo_http}
