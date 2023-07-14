@@ -81,25 +81,23 @@ function Calendario() {
 
   return (
     <div className='container mt-3 '>
-      <div className='card shadow rounded'>
-        <div className='card-body'>
-          <div className='d-block mt-3 mx-auto' style={{ width: '80%' }}>
-            <FullCalendar
-              plugins={calendarPlugins}
-              initialView='dayGridMonth'
-              headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay',
-              }}
-              eventClick={handleEventClick}
-              eventBorderColor={'#000'}
-              events={events}
-            />
-          </div>
-        </div>
+
+      <div className='d-block mt-3 mx-auto' style={{ width: '80%' }}>
+        <FullCalendar
+          plugins={calendarPlugins}
+          initialView='dayGridMonth'
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          }}
+          eventClick={handleEventClick}
+          eventBorderColor={'#000'}
+          events={events}
+        />
       </div>
     </div>
+
   );
 }
 

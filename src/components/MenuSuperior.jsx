@@ -1,77 +1,78 @@
-import React from "react";
-import { Edit2, LogOut } from "react-feather";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logoFonasa from "../assets/logo-fonasa.svg";
 import constantes from "./constantes.json";
+import * as FaIcons from 'react-icons/fa';
+import * as AiIcons from 'react-icons/ai';
+import { SidebarData } from './SidebarData';
+import './Navbar.css';
+import { IconContext } from 'react-icons';
+
 function MenuSuperior({ user }) {
+  const showSidebar = () => setSidebar(!sidebar);
+  const [sidebar, setSidebar] = useState(false);
+
   return (
-    <header className="sticky-top">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <Link className="navbar-brand" to="/">
-            <img
-              src={logoFonasa}
-              alt="Fonasa"
-              className="logo-fonasa img-fluid"
-            />
-            {process.env.REACT_APP_NOMBRE_APLICACION}-
-            {process.env.REACT_APP_AMBIENTE}-{process.env.REACT_APP_VERSION}
-          </Link>
+    <IconContext.Provider value={{ color: '#fff' }}>
+      <div className='navbar'>
+        {user && (
+          <div className="nav navbar-nav navbar-right hidden-xs text-light position-absolute top-0 end-0">
+            <span className="pull-left user-top">
+              <p className="mT10 ng-binding ng-scope">
+                <span className="fw-semibold">Bienvenido/a, </span>
+                {user.nombre}
+              </p>
+              <p>
+                <span className="fw-semibold">RUN: </span> {user.run}
+              </p>
+              <p>
+                <Link className="link-light" to={constantes.logout}>
+                  Cerrar Sesión
+                </Link>
+              </p>
+            </span>
+          </div>
+        )}
+        <Link to='#' className='menu-bars'>
+          <FaIcons.FaBars onClick={showSidebar} />
+        </Link>
+      </div>
+      {user && (
+        <>
+          <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+            <ul className='nav-menu-items' onClick={showSidebar}>
+              <li className='navbar-toggle'>
+                <Link className="navbar-brand" to="/">
+                  <img
+                    src={logoFonasa}
+                    alt="Fonasa"
+                    className="logo-fonasa img-fluid"
+                  />
+                </Link>
+                <Link to='#' className='menu-bars'>
+                  <AiIcons.AiOutlineClose />
+                </Link>
+              </li>
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                {SidebarData.map((item, index) => {
+                  return (
+                    <li key={index} className={item.cName}>
+                      <Link to={item.path} onClick={(e) => {
 
-          {user && (
-            <>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarText"
-                aria-controls="navbarText"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
-              <div className="collapse navbar-collapse" id="navbarText">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  {constantes.menu.map((item) => (
-                    <li className="nav-item" key={item.path}>
-                      <NavLink
-                        to={item.path}
-                        replace={true}
-                        className="nav-link"
-                        >
-                        {item.label}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="nav navbar-nav navbar-right hidden-xs text-light">
-                  <span className ="pull-left user-top">
-                    <p className="mT10 ng-binding ng-scope">
-                      <span className="fw-semibold">Bienvenido/a, </span>
-                      {user.nombre}
-                    </p>
-
-                    <p>
-                      <span className="fw-semibold">RUN: </span> {user.run}
-                    </p>
-                    <p>
-                      {user.tipo_usuario} {" / "} {user.institucion}
-                    </p>
-                    <p>
-                      <Link className="link-light" to={constantes.logout}>
-                        Cerrar Sesión
+                      }}>
+                        {item.icon}
+                        <span>{item.title}</span>
                       </Link>
-                    </p>
-                  </span>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </nav>
-    </header>
+                    </li>
+                  );
+                })}
+              </ul>
+            </ul>
+          </nav>
+          {/* Renderizar el contenido aquí */}
+        </>
+      )}
+    </IconContext.Provider>
   );
 }
 
