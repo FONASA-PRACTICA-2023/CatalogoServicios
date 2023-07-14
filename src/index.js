@@ -1,17 +1,15 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
 import AplicacionSnoopy from "./AplicacionSnoopy";
 import "./index.css";
-
 import { CookiesProvider } from "react-cookie";
 import bootstrap from "bootstrap";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-console.log("NODE_ENV:" + process.env.NODE_ENV);
-console.log("NODE_ENV:" + process.env.REACT_APP_AMBIENTE);
+// console.log("NODE_ENV:" + process.env.NODE_ENV);
+// console.log("NODE_ENV:" + process.env.REACT_APP_AMBIENTE);
 
 root.render(
   <StrictMode>
