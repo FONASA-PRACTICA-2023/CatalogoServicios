@@ -19,10 +19,10 @@ function ListadoServiciosIntegracion() {
   const [ordenAscendente, setOrdenAscendente] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     fetchData();
   }, []);
+
 
   const fetchData = () => {
     setIsLoading(true);
@@ -129,7 +129,7 @@ function ListadoServiciosIntegracion() {
   };
   return (
     <div>
-      <Typography variant="h2">Listado de Servicios</Typography>
+      <Typography variant="h5" arrow>Listado de Servicios</Typography>
       <TableRow>
         <TableCell>
           <Typography variant="h5">Total de servicios({totalFilas})</Typography>
@@ -139,11 +139,10 @@ function ListadoServiciosIntegracion() {
       {isLoading ? (
         <div className="text-center">
           <Button variant="contained" color="primary" disabled>
-            <CircularProgress size={20} color="inherit" />
+            <CircularProgress size={20} color="primary" />
             Loading...
           </Button>
         </div>
-        
       ) : (
         <Table>
           <TableHead>

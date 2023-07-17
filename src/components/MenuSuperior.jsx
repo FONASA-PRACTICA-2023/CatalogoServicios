@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import logoFonasa from "../assets/logo-fonasa.svg";
 import constantes from "./constantes.json";
 import * as FaIcons from 'react-icons/fa';
@@ -8,9 +8,19 @@ import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 
-function MenuSuperior({ user }) {
-  const showSidebar = () => setSidebar(!sidebar);
-  const [sidebar, setSidebar] = useState(false);
+function MenuSuperior({ user, sidebar, setSidebar }) { 
+  const [estado, setEstado] = useState(false);
+
+  useEffect(() => {
+    console.log(`Sidebar ${sidebar ? 'abierto' : 'cerrado'}`);
+    setEstado(sidebar);
+    console.log(estado);
+
+  }, [sidebar]);
+
+  const showSidebar = () => {
+    setSidebar(!sidebar);
+  };
 
   return (
     <IconContext.Provider value={{ color: '#fff' }}>
@@ -69,10 +79,12 @@ function MenuSuperior({ user }) {
               </ul>
             </ul>
           </nav>
-          {/* Renderizar el contenido aquí */}
+          <div className={sidebar ? 'content-shifted' : ''}>
+          </div>
         </>
-      )}
-    </IconContext.Provider>
+      )
+      }
+    </IconContext.Provider >
   );
 }
 

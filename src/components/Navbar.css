@@ -4,12 +4,14 @@
     display: flex;
     justify-content: start;
     align-items: center;
+    position: relative;
   }
   
   .menu-bars {
     margin-left: 2rem;
     font-size: 2rem;
     background: none;
+    position: relative;
   }
   
   .nav-menu {
@@ -26,7 +28,7 @@
   
   .nav-menu.active {
     left: 0;
-    transition: 350ms;
+    transition: 100ms;
   }
   
   .nav-text {
@@ -70,3 +72,9 @@
   span {
     margin-left: 16px;
   }
+
+  .content-shifted {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+  }
+  

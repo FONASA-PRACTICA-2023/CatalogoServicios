@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import Logout from "./pages/Logout";
 import FormularioLogin from "./pages/login/FormularioLogin";
 import LayoutFonasa from "./components/LayoutFonasa";
@@ -11,10 +10,11 @@ import Calendario from "./pages/servicios/Calendario";
 import Editar from "./pages/servicios/Servicioeditar";
 import Monitor from "./pages/servicios/MonitorLogin";
 import Grafico from "./pages/servicios/Grafico";
-
+import Ejemplo from "./pages/servicios/ejemplo";
 import { CloudOff } from 'react-feather';
 
 function AplicacionSnoopy() {
+
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -24,22 +24,26 @@ function AplicacionSnoopy() {
 
             <Route path="/logout" element={<Logout />} />
           </Route>
-          <Route element={<LayoutFonasa />}>
+          <Route element={<LayoutFonasa/>}>
             <Route
               path="/servicio-crear"
-              element={<FormularioServicioIntegracion />}
+              element={<FormularioServicioIntegracion  />}
             />
             <Route
               path="/servicio-ver/:nombre"
-              element={<Editar formularioDeshabilitado={true}/>}
+              element={<Editar formularioDeshabilitado={true} />}
+            />
+            <Route
+              path="/ejemplo"
+              element={<Ejemplo />}
             />
             <Route
               path="/prueba"
-              element={<Monitor/>}
+              element={<Monitor />}
             />
             <Route
               path="/servicio-editar/:nombre"
-              element={<Editar formularioDeshabilitado={false} />} 
+              element={<Editar formularioDeshabilitado={false} />}
             />
             <Route
               path="/registros"
