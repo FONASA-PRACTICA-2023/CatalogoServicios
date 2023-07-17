@@ -137,12 +137,35 @@ function ListadoServiciosIntegracion() {
       </TableRow>
       <Input type="text" variant="outlined" className="mb-3" placeholder="Filtrar por numerador" value={filtro} onChange={(e) => setFiltro(e.target.value)} />
       {isLoading ? (
-        <div className="text-center">
-          <Button variant="contained" color="primary" disabled>
-            <CircularProgress size={20} color="primary" />
-            Loading...
-          </Button>
-        </div>
+        <>
+          <div class="d-flex justify-content-center mt-3">
+            <div class="spinner-border text-secondary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div className="mt-3" aria-hidden="true" id="carga">
+            <div className="card-body">
+              <h5 className="card-title placeholder-glow">
+                <span className="placeholder col-1"></span>
+                <span className="placeholder col-3"></span>
+                <span className="placeholder col-3"></span>
+                <span className="placeholder col-3"></span>
+                <span className="placeholder col-1"></span>
+              </h5>
+              <p className="card-text placeholder-glow">
+                {Array.from({ length: 50 }).map((_, index) => (
+                  <React.Fragment key={index}>
+                    <span className="placeholder col-1 mt-5"></span>
+                    <span className="placeholder col-3 mt-5"></span>
+                    <span className="placeholder col-3 mt-5"></span>
+                    <span className="placeholder col-3 mt-5"></span>
+                    <span className="placeholder col-1 mt-5"></span>
+                  </React.Fragment>
+                ))}
+              </p>
+            </div>
+          </div>
+        </>
       ) : (
         <Table>
           <TableHead>
@@ -160,85 +183,7 @@ function ListadoServiciosIntegracion() {
           </TableHead>
           <TableBody>
             {datosOrdenados.filter(filtrarDatos).map((servicio) => (
-              <React.Fragment key={servicio.id_servicio}>
-                <Modal open={false} onClose={() => { }}>
-                  <div className="modal-dialog modal-dialog-scrollable">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <Typography variant="h5">URL del servicio: {servicio.id_servicio}</Typography>
-                        <Button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></Button>
-                      </div>
-                      <div className="modal-body">
-                        Url
-                        <Card>
-                          <CardContent>
-                            <Typography>{servicio.url_servicio_prd}</Typography>
-                            <Button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_servicio_prd)}>
-                              <AiOutlineCopy />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                        Request
-                        <Card>
-                          <CardContent>
-                            <Typography>{servicio.pregunta}</Typography>
-                            <Button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
-                              <AiOutlineCopy />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                        Response
-                        <Card>
-                          <CardContent>
-                            <Typography>{servicio.respuesta}</Typography>
-                            <Button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
-                              <AiOutlineCopy />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </div>
-                  </div>
-                </Modal>
-                <Modal open={false} onClose={() => { }}>
-                  <div className="modal-dialog modal-dialog-scrollable">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <Typography variant="h5">URL del backend: {servicio.id_servicio}</Typography>
-                        <Button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></Button>
-                      </div>
-                      <div className="modal-body">
-                        Url
-                        <Card>
-                          <CardContent>
-                            <Typography>{servicio.url_backend_prd}</Typography>
-                            <Button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_backend_prd)}>
-                              <AiOutlineCopy />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                        Request
-                        <Card>
-                          <CardContent>
-                            <Typography>{servicio.pregunta}</Typography>
-                            <Button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
-                              <AiOutlineCopy />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                        Response
-                        <Card>
-                          <CardContent>
-                            <Typography>{servicio.respuesta}</Typography>
-                            <Button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
-                              <AiOutlineCopy />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    </div>
-                  </div>
-                </Modal>
+              <React.Fragment key={servicio.id_servicio}>               
                 <TableRow key={servicio.id_servicio}>
                   <TableCell>{servicio.numerador}</TableCell>
                   <TableCell>

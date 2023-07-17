@@ -32,21 +32,35 @@ function Ejemplo() {
                 </div>
             </div>
             {/* VERSION DE CARGA */}
-            <div class="card mt-3 rounded shadow" aria-hidden="true" id="carga">
-                <div class="card-body">
-                    <h5 class="card-title placeholder-glow">
-                        <span class="placeholder col-6"></span>
-                    </h5>
-                    <p class="card-text placeholder-glow">
-                        <span class="placeholder col-7"></span>
-                        <span class="placeholder col-4"></span>
-                        <span class="placeholder col-4"></span>
-                        <span class="placeholder col-6"></span>
-                        <span class="placeholder col-8"></span>
-                    </p>
-                    <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-1"></a>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
+            <div className="mt-3" aria-hidden="true" id="carga">
+                <div className="card-body">
+                    <h5 className="card-title placeholder-glow">
+                        <span className="placeholder col-1"></span>
+                        <span className="placeholder col-3"></span>
+                        <span className="placeholder col-3"></span>
+                        <span className="placeholder col-3"></span>
+                        <span className="placeholder col-1"></span>
+                    </h5>
+                    <p className="card-text placeholder-glow">
+                        {Array.from({ length: 50 }).map((_, index) => (
+                            <React.Fragment key={index}>
+                                <span className="placeholder col-1 mt-5"></span>
+                                <span className="placeholder col-2 mt-5"></span>
+                                <span className="placeholder col-4 mt-5"></span>
+                                <span className="placeholder col-3 mt-5"></span>
+                                <span className="placeholder col-1 mt-5"></span>
+                            </React.Fragment>
+                        ))}
+                    </p>
+                </div>
+            </div>
+
+
         </>
 
     );
