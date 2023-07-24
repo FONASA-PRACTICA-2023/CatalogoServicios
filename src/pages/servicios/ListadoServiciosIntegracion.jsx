@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { BiEdit, BiTrash } from 'react-icons/bi';
+import { BsFillEyeFill } from 'react-icons/bs';
 import { AiOutlineCopy } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import { CgArrowsExchangeV } from 'react-icons/cg';
+
 
 function ListadoServiciosIntegracion() {
   const [datos, setDatos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [totalFilas, setTotalFilas] = useState(0);
+  const [get, setGet] = useState(0);
+  const [post, setPost] = useState(0);
+  const [soap, setSoap] = useState(0);
+  const [rest, setRest] = useState(0);
+  const [datosOrdenados, setDatosOrdenados] = useState([]);
+  const [ordenAscendente, setOrdenAscendente] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     fetchData();
@@ -13,26 +26,104 @@ function ListadoServiciosIntegracion() {
 
   const fetchData = () => {
     setIsLoading(true);
-    fetch("https://t7ljho60p7.execute-api.us-east-1.amazonaws.com/items")
-      .then((response) => response.json())
-      .then((data) => {
-        // Ordenar los datos por el campo "id" de menor a mayor
-        const datosOrdenados = data.map((dato) => ({ ...dato, id: Number(dato.id) }));
-        datosOrdenados.sort((a, b) => a.id - b.id);
-        setDatos(datosOrdenados);
-        setTotalFilas(datosOrdenados.length);
+    fetch("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio-buscar-todos")
+      .then(response => response.json())
+      .then(data => {
+        const datosOrdenadosPorNumerador = [...data.registros];
+        datosOrdenadosPorNumerador.sort((a, b) => parseInt(a.numerador) - parseInt(b.numerador));
+        setDatos(data.registros);
+        setDatosOrdenados(datosOrdenadosPorNumerador);
+        setTotalFilas(data.registros.length);
+
+        const postObjects = data.registros.filter(obj => obj.metodo_http === "POST");
+        const countPostObjects = postObjects.length;
+        setPost(countPostObjects);
+
+        const getObjects = data.registros.filter(obj => obj.metodo_http === "GET");
+        const countGetObjects = getObjects.length;
+        setGet(countGetObjects);
+
+        const soapObjects = data.registros.filter(obj => obj.tipo_protocolo === "SOAP");
+        const countSoapObjects = soapObjects.length;
+        setSoap(countSoapObjects);
+
+        const restObjects = data.registros.filter(obj => obj.tipo_protocolo === "REST");
+        const countRestObjects = restObjects.length;
+        setRest(countRestObjects);
+
         setIsLoading(false);
+
       })
-      .catch((error) => console.log("Error:", error));
+      .catch(error => console.log('Error:', error));
+  }
+
+  const ordenarPorNumerador = () => {
+    const datosOrdenadosPorNumerador = [...datosOrdenados];
+    datosOrdenadosPorNumerador.sort((a, b) => {
+      const orden = ordenAscendente ? 1 : -1;
+      return orden * (parseInt(a.numerador) - parseInt(b.numerador));
+    });
+    setDatosOrdenados(datosOrdenadosPorNumerador);
+    setOrdenAscendente(!ordenAscendente);
   };
 
   const filtrarDatos = (dato) => {
     const filtroLowerCase = filtro.toLowerCase();
     return (
-      (dato.id && dato.id.toString().includes(filtroLowerCase)) ||
-      (dato.ws && dato.ws.toLowerCase().includes(filtroLowerCase))
+      dato.nombre.toLowerCase().includes(filtroLowerCase) ||
+      dato.numerador.toLowerCase().includes(filtroLowerCase) ||
+      dato.metodo_http.toLowerCase().includes(filtroLowerCase)
     );
   };
+
+
+  const eliminar = (idServicio) => {
+    // Mostrar el swal de confirmación
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el servicio seleccionado',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si se confirma la eliminación, enviar la solicitud DELETE
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+          "id_servicio": idServicio
+        });
+
+        var requestOptions = {
+          method: 'DELETE',
+          headers: myHeaders,
+          body: raw,
+          redirect: 'follow'
+        };
+
+        fetch("https://o5t896hzxk.execute-api.us-east-1.amazonaws.com/Prod/servicio", requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            // console.log(result);
+            // Vuelve a cargar los datos después de eliminar
+            fetchData();
+          })
+          .catch(error => console.log('error', error));
+
+        // Mostrar un swal de éxito después de eliminar
+        Swal.fire(
+          '¡Eliminado!',
+          'El servicio ha sido eliminado exitosamente.',
+          'success'
+        );
+      }
+    });
+  };
+
   const copiarURL = (url) => {
     navigator.clipboard.writeText(url);
   };
@@ -56,80 +147,120 @@ function ListadoServiciosIntegracion() {
         <table className="table ">
           <thead>
             <tr>
-              <th>ID</th>
+              <th onClick={ordenarPorNumerador} className="order-icon">Numerador<CgArrowsExchangeV /></th>
               <th>Nombre</th>
-              <th>url_backend_prd</th>
               <th>url_backend_qa</th>
+              <th>url_backend_prd</th>
+              <th>Fecha de Creación</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {datos.filter(filtrarDatos).map((dato, index) => (
-              <React.Fragment key={index}>
-                <div className="modal fade" id={`staticBackdrop-${dato.id}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel-${dato.id_servicio}`} aria-hidden="true">
-                  <div className="modal-dialog">
+            {datosOrdenados.filter(filtrarDatos).map((servicio) => (
+              <>
+                <div className="modal fade" id={`staticBackdrop-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-scrollable">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h5 className="modal-title" id={`staticBackdropLabel-${dato.id}`}>Datos: {dato.ws}</h5>
+                        <h5 className="modal-title" id={`staticBackdropLabel-${servicio.id_servicio}`}>URL del servicio: {servicio.id_servicio}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div className="modal-body">
-                        url_backend_prd
+                        Url
                         <div className="card">
                           <div className="card-body">
-                            <p className="card-text">{dato.EndPoint_PRD} <button type="button" className="btn btn-link" onClick={() => copiarURL(dato.EndPoint_PRD)}>
+                            <p className="card-text">{servicio.url_backend_qa} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_backend_qa)}>
                               <AiOutlineCopy />
                             </button></p>
                           </div>
                         </div>
-                      </div>
-                      <div className="modal-body">
-                        url_backend_qa
-                        <div className="card">
-                          <div className="card-body">
-                            <p className="card-text">{dato.EndPoint_QA} <button type="button" className="btn btn-link" onClick={() => copiarURL(dato.EndPoint_QA)}>
-                              <AiOutlineCopy />
-                            </button></p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="modal-body">
                         Request
                         <div className="card">
                           <div className="card-body">
-                            <p className="card-text">{dato.request} <button type="button" className="btn btn-link" onClick={() => copiarURL(dato.request)}>
+                            <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
                               <AiOutlineCopy />
-                            </button></p>
+                            </button> </p>
                           </div>
                         </div>
-                      </div>
-                      <div className="modal-body">
                         Response
                         <div className="card">
                           <div className="card-body">
-                            <p className="card-text">{dato.response} <button type="button" className="btn btn-link" onClick={() => copiarURL(dato.response)}>
+                            <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
                               <AiOutlineCopy />
                             </button></p>
                           </div>
                         </div>
                       </div>
-
                     </div>
                   </div>
                 </div>
-
-                <tr>
-                  <td>{dato.id}</td>
+                <div className="modal fade" id={`staticBackdrop2-${servicio.id_servicio}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`staticBackdropLabel2-${servicio.id_servicio}`} aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-scrollable">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id={`staticBackdropLabel2-${servicio.id_servicio}`}>URL del backend: {servicio.id_servicio}</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        Url
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.url_backend_prd} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.url_backend_prd)}>
+                              <AiOutlineCopy />
+                            </button></p>
+                          </div>
+                        </div>
+                        Request
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.pregunta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.pregunta)}>
+                              <AiOutlineCopy />
+                            </button> </p>
+                          </div>
+                        </div>
+                        Response
+                        <div className="card">
+                          <div className="card-body">
+                            <p className="card-text">{servicio.respuesta} <button type="button" className="btn btn-link" onClick={() => copiarURL(servicio.respuesta)}>
+                              <AiOutlineCopy />
+                            </button></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <tr key={servicio.id_servicio}>
                   <td>
-                    <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${dato.id}`}>
-                      {dato.ws}
-                    </button>
-                    <h6>{dato.Metodo}/{dato.Tipo}</h6>
+                    {servicio.numerador}
                   </td>
-                  <td>{dato.EndPoint_PRD.substring(0, 30)}....</td>
-                  <td>{dato.EndPoint_QA.substring(0, 30)}....</td>
-                  <td></td>
+                  <td>
+                    <div>
+                      {servicio.nombre.substring(0, 30)}...
+                    </div>
+                    <h6 className="text-muted fs-6">
+                      /{servicio.tipo_protocolo}-{servicio.metodo_http}
+                    </h6>
+                  </td>
+
+                  <td>
+                    <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop-${servicio.id_servicio}`}>
+                      {servicio.url_backend_qa.substring(0, 30)}...
+                    </button>
+                  </td>
+                  <td>
+                    <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target={`#staticBackdrop2-${servicio.id_servicio}`}>
+                      {servicio.url_backend_prd.substring(0, 30)}...
+                    </button>
+                  </td>
+                  <td>{servicio.fecha_creacion}</td>
+                  <td>
+                    <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
+                    <Link to={`/servicio-ver/${servicio.id_servicio}`} className="btn"><BsFillEyeFill /></Link>
+                    <button className="btn" onClick={() => eliminar(servicio.id_servicio)}><BiTrash /></button>
+                  </td>
                 </tr>
-              </React.Fragment>
+              </>
             ))}
           </tbody>
         </table>
@@ -137,5 +268,4 @@ function ListadoServiciosIntegracion() {
     </div>
   );
 }
-
 export default ListadoServiciosIntegracion;
