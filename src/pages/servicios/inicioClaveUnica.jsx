@@ -31,7 +31,7 @@ const MyComponent = () => {
     };
 
     fetch("https://accounts.claveunica.gob.cl/openid/token/", requestOptions)
-      .then(response => response.text())
+      .then(response => response.json())
       .then(result => setResponse(result))
       getData()
       .catch(error => console.log('error', error));
@@ -39,7 +39,7 @@ const MyComponent = () => {
 
 
 
-  const getData = async () => {
+  const getData = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", response.access_token);
