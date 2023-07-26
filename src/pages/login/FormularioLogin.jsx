@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import useApiSnoopy from "../../hooks/useApiSnoopy";
 import Cargando from "../../components/Cargando";
@@ -11,9 +10,7 @@ export const FormularioLogin = () => {
   const { login } = useAuth();
 
   let apiSnoopy = useApiSnoopy();
-  const [cssFormulario, setCssFormulario] = useState(
-    "row g-3 needs-validation"
-  );
+  const [cssFormulario, setCssFormulario] = useState("row g-3 needs-validation");
   const iniciarSesion = async (usuarioLogeado) => {
     try {
       // console.log("FormularioLogin::iniciarSesion", usuarioLogeado);
@@ -34,6 +31,9 @@ export const FormularioLogin = () => {
     const newValoresFormulario = { ...valoresFormulario, [name]: value };
     setValoresFormulario(newValoresFormulario);
   };
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -48,6 +48,10 @@ export const FormularioLogin = () => {
     }
 
     setCssFormulario("needs-validation row g-3 ");
+  };
+
+  const handleClaveUnicaClick = () => {
+    window.location.href = "https://accounts.claveunica.gob.cl/openid/authorize/?client_id=e436946334034d7c81918ca1e5520385&response_type=code&scope=openid run name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=68dmfgOr0tSGASttTn1aMml8xLzeL983";
   };
 
   return (
@@ -97,6 +101,15 @@ export const FormularioLogin = () => {
             type="submit"
           >
             <em className="material-icons md-18">login</em> Ingresar
+          </button>
+        </div>
+        <div className="col-md-6 mb-3">
+          <button
+            className="btn btn-sm btn-primary d-flex align-items-center"
+            type="button" // Change to "button" type
+            onClick={handleClaveUnicaClick} // Handle Clave Unica click
+          >
+            <em className="material-icons md-18"></em> clave unica
           </button>
         </div>
       </form>

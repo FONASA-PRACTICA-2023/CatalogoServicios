@@ -12,6 +12,7 @@ import Monitor from "./pages/servicios/MonitorLogin";
 import Grafico from "./pages/servicios/Grafico";
 import Ejemplo from "./pages/servicios/ejemplo";
 import { CloudOff } from 'react-feather';
+import ClaveUnica from "./pages/inicioClaveUnica";
 
 function AplicacionSnoopy() {
 
@@ -21,6 +22,8 @@ function AplicacionSnoopy() {
         <Routes>
           <Route element={<LayoutPublico />}>
             <Route path="/login" element={<FormularioLogin />} />
+            <Route path="/login" element={<FormularioLogin />} />
+            <Route path="/cue/callback" element={<ClaveUnica/>} />
 
             <Route path="/logout" element={<Logout />} />
           </Route>

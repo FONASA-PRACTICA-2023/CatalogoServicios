@@ -9,37 +9,40 @@ function FormularioServicioIntegracion() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const [formulario, setFormulario] = useState({
-        tipo_autenticacion: "",
-        ambiente: "",
-        canal_exposicion: "",
-        url_backend_dev: "",
-        max_size_payload: "",
-        genera_alarma_por_incumplimiento_politica: "",
-        url_servicio_qa: "",
-        tipo_protocolo: "",
-        timeout: "",
-        tps_estimadas: "",
-        id_servicio: "",
-        habilita_cors: "",
-        url_servicio_prd: "",
-        restringir_contenttype: "",
-        descripcion: "",
-        valida_ip_consumidor: "",
-        guarda_log_request_response: "",
-        metodo_http: "",
-        categoria_servicio: "",
-        nombre: "",
-        max_peticiones_diarias: "",
-        url_servicio_dev: "",
-        promedio_uso_mensual: "",
-        fecha_creacion: "",
-        autor_id: "",
-        validacion_jwt: "",
-        fecha_actualizacion: "",
-        numerador: "",
-        criticidad_servicio: "",
-        url_backend_prd: "",
-        url_backend_qa: ""
+        tipo_autenticacion: '',
+        ambiente: '',
+        canal_exposicion: '',
+        url_backend_dev: '',
+        max_size_payload: '',
+        genera_alarma_por_incumplimiento_politica: '',
+        url_servicio_qa: '',
+        tipo_protocolo: '',
+        timeout: '',
+        tps_estimadas: '',
+        id_servicio: '',
+        habilita_cors: '',
+        url_servicio_prd: '',
+        restringir_contenttype: '',
+        descripcion: '',
+        valida_ip_consumidor: '',
+        guarda_log_request_response: '',
+        metodo_http: '',
+        categoria_servicio: '',
+        nombre: '',
+        max_peticiones_diarias: '',
+        url_servicio_dev: '',
+        promedio_uso_mensual: '',
+        fecha_creacion: '',
+        autor_id: '',
+        validacion_jwt: '',
+        fecha_actualizacion: '',
+        numerador: '',
+        criticidad_servicio: '',
+        url_backend_prd: '',
+        url_backend_qa: '',
+        pregunta: '',
+        respuesta: '',
+        proveedor: ''
     });
 
     const handleChange = (e) => {
@@ -108,8 +111,11 @@ function FormularioServicioIntegracion() {
 
     return (
         <div className="card mt-3 rounded shadow " aria-hidden="true">
+
             <div className="card-body placeholder-glow">
                 <form onSubmit={handleSubmit}>
+                    <button disabled={formularioDeshabilitado} type="submit" className="btn btn-primary">Actualizar</button>
+                    <Link to={"/"} class="btn btn-secondary">Cancelar</Link>
                     <div className="row">
                         {/* NOMBRE */}
                         <div className="col-md-10">
@@ -133,11 +139,46 @@ function FormularioServicioIntegracion() {
                         </div>
                     </div>
 
-                    {/* NUMERADOR */}
-                    <div className="col-md-5">
-                        <label htmlFor="numerador_servicio" className="form-label">Numerador del servicio</label>
-                        <input type="text" className="form-control" disabled={formularioDeshabilitado} id="numerador" name="numerador" value={formulario.numerador} onChange={handleChange} />
-                        <div className="form-text">Si cambia el número del nombre del servico, este campo tambien cambia</div>
+                    <div className="row">
+                        {/* NUMERADOR */}
+                        <div className="col-md-5">
+                            <label htmlFor="numerador_servicio" className="form-label">Numerador del servicio</label>
+                            <input type="text" className="form-control" id="numerador" name="numerador" value={formulario.numerador} onChange={handleChange} />
+                            <div className="form-text">Si cambia el número del nombre del servico, este campo tambien cambia</div>
+                        </div>
+                        {/* Expuesto */}
+                        <div className="col-3">
+                            <label htmlFor="proveedor_servicio" className="form-label">Proveedor</label>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="axway"
+                                    name="proveedor"
+                                    value="Axway"
+                                    checked={formulario.proveedor === "Axway"}
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="axway">Axway</label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="fonasa"
+                                    name="proveedor"
+                                    value="Fonasa"
+                                    checked={formulario.proveedor === "Fonasa"}
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="fonasa">Fonasa</label>
+                            </div>
+                            <div className="form-text">Seleccione el proveedor de servicios.</div>
+                        </div>
+                        {/* NUMERADOR */}
+                        <div className="col-md-5">
+                            <label htmlFor="aplicativo" className="form-label">Pagina asociada</label>
+                            <input type="text" className="form-control" id="aplicativo" name="aplicativo" value={formulario.aplicativo} onChange={handleChange} />
+                            <div className="form-text">Si cambia el número del nombre del servico, este campo tambien cambia</div>
+                        </div>
                     </div>
                     {/* DESCRIPCION */}
                     <div className="col-md-12">

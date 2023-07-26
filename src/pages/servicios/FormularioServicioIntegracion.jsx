@@ -39,7 +39,8 @@ function FormularioServicioIntegracion(props) {
     url_backend_prd: '',
     url_backend_qa: '',
     pregunta: '',
-    respuesta: ''
+    respuesta: '',
+    proveedor: ''
   });
 
   const handleChange = (e) => {
@@ -109,12 +110,46 @@ function FormularioServicioIntegracion(props) {
             <div className="invalid-feedback">Debe ingresar un valor</div>
           </div>
         </div>
-
-        {/* NUMERADOR */}
-        <div className="col-md-5">
-          <label htmlFor="numerador_servicio" className="form-label">Numerador del servicio</label>
-          <input type="text" className="form-control" id="numerador" name="numerador" value={formulario.numerador} onChange={handleChange} />
-          <div className="form-text">Si cambia el número del nombre del servico, este campo tambien cambia</div>
+        <div className="row">
+          {/* NUMERADOR */}
+          <div className="col-md-5">
+            <label htmlFor="numerador_servicio" className="form-label">Numerador del servicio</label>
+            <input type="text" className="form-control" id="numerador" name="numerador" value={formulario.numerador} onChange={handleChange} />
+            <div className="form-text">Si cambia el número del nombre del servico, este campo tambien cambia</div>
+          </div>
+          {/* Expuesto */}
+          <div className="col-3">
+            <label htmlFor="proveedor_servicio" className="form-label">Proveedor</label>
+            <div>
+              <input
+                type="checkbox"
+                id="axway"
+                name="proveedor"
+                value="Axway"
+                checked={formulario.proveedor === "Axway"}
+                onChange={handleChange}
+              />
+              <label htmlFor="axway">Axway</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                id="fonasa"
+                name="proveedor"
+                value="Fonasa"
+                checked={formulario.proveedor === "Fonasa"}
+                onChange={handleChange}
+              />
+              <label htmlFor="fonasa">Fonasa</label>
+            </div>
+            <div className="form-text">Seleccione el proveedor de servicios.</div>
+          </div>
+          {/* NUMERADOR */}
+          <div className="col-md-5">
+            <label htmlFor="aplicativo" className="form-label">Pagina asociada</label>
+            <input type="text" className="form-control" id="aplicativo" name="aplicativo" value={formulario.aplicativo} onChange={handleChange} />
+            <div className="form-text">Si cambia el número del nombre del servico, este campo tambien cambia</div>
+          </div>
         </div>
         {/* DESCRIPCION */}
         <div className="col-md-12">
@@ -124,9 +159,9 @@ function FormularioServicioIntegracion(props) {
           <textarea className="form-control" rows="3" id="descripcion" name="descripcion" value={formulario.descripcion} onChange={handleChange}></textarea>
           <div className="invalid-feedback">Debe ingresar un valor</div>
         </div>
-        {/* <div className="row">
+        <div className="row">
           {/* TPS_ESTIMADAS */}
-          {/* <div className="col-md-4">
+          <div className="col-md-4">
             <label className="form-label">Tps Estimadas</label>
             <div className="input-group mb-3">
               <input
@@ -144,16 +179,16 @@ function FormularioServicioIntegracion(props) {
             </div>
           </div>
           {/* PROMEDIO_USO_MENSUAL */}
-          {/* <div className="col-md-4">
+          <div className="col-md-4">
             <label className="form-label">Promedio Uso Mensual</label>
             <div className="input-group mb-3">
               <input className="form-control" value={formulario.promedio_uso_mensual} onChange={handleChange} name="promedio_uso_mensual" id="promedio_uso_mensual" type="number" maxLength="3" min="0" max="10000000" step="1" />
               <span className="input-group-text">Peticiones</span>
             </div>
           </div>
-        </div>  */}
+        </div>
         <div className="row">
-          {/* METODO_HTTP */}
+          {/* METODO_HTTP*/}
           <div className="col-md-3">
             <label className="form-label">
               Metodo Http<span className="text-danger fw-bold fs-5">*</span>

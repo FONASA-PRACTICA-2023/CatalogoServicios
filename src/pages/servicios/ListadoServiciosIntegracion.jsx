@@ -151,6 +151,7 @@ function ListadoServiciosIntegracion() {
               <th>Nombre</th>
               <th>url_backend_qa</th>
               <th>url_backend_prd</th>
+              <th>expuesto</th>
               <th>Fecha de Creación</th>
               <th>Acciones</th>
             </tr>
@@ -253,6 +254,7 @@ function ListadoServiciosIntegracion() {
                       {servicio.url_backend_prd.substring(0, 30)}...
                     </button>
                   </td>
+                  <td>{servicio.proveedor}</td>
                   <td>{servicio.fecha_creacion}</td>
                   <td>
                     <Link to={`/servicio-editar/${servicio.id_servicio}`} className="btn"><BiEdit /></Link>
