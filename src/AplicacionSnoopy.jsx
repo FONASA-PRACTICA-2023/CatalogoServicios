@@ -12,7 +12,7 @@ import Monitor from "./pages/servicios/MonitorLogin";
 import Grafico from "./pages/servicios/Grafico";
 import Ejemplo from "./pages/servicios/ejemplo";
 import { CloudOff } from 'react-feather';
-import ClaveUnica from "./pages/inicioClaveUnica";
+import ClaveUnica from "./pages/servicios/inicioClaveUnica";
 
 function AplicacionSnoopy() {
 
