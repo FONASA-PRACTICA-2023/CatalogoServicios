@@ -5,6 +5,10 @@ const MyComponent = () => {
   const [datosUsuario, setDatosUsuario] = useState([]);
 
   useEffect(() => {
+    getTokens();
+  }, []);
+
+  const getTokens = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     const state = urlParams.get("state");
@@ -31,15 +35,40 @@ const MyComponent = () => {
     fetch("https://accounts.claveunica.gob.cl/openid/token/", requestOptions)
       .then(response => response.text())
       .then(result => setResponse(result))
-      // getData()
+    getData()
       .catch(error => console.log('error', error));
-  }, []);
-    return (
-      <div className="container w-50 mt-4">
-        <h1 className="mb-3">Respuesta del POST</h1>
-        <pre>{response}</pre>
-      </div>
-    );
-  };
+  }
 
-  export default MyComponent;
+  const getData = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", response.access_token);
+    myHeaders.append("Cookie", "csrftoken=GNgYNAH991h5IR0qeggMXI4bFmvo28k1WvW4WDnVMVQEhOdDWhA7Nf03IfvUC7CD");
+
+    var graphql = JSON.stringify({
+      query: "",
+      variables: {}
+    })
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql,
+      redirect: 'follow'
+    };
+
+    fetch("https://accounts.claveunica.gob.cl/openid/userinfo", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log("-----:", result))
+      .catch(error => console.log('error', error));
+
+  }
+
+  return (
+    <div className="container w-50 mt-4">
+      <h1 className="mb-3">Respuesta del POST</h1>
+      <pre>{response}</pre>
+    </div>
+  );
+};
+
+export default MyComponent;
