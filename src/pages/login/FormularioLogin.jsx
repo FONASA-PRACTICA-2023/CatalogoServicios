@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 export const FormularioLogin = () => {
   const { login } = useAuth();
+  const client_ids = "e436946334034d7c81918ca1e5520385";
+  const state = "123456789";
+
 
   let apiSnoopy = useApiSnoopy();
   const [cssFormulario, setCssFormulario] = useState("row g-3 needs-validation");
@@ -51,7 +54,7 @@ export const FormularioLogin = () => {
   };
 
   const handleClaveUnicaClick = () => {
-    window.location.href = "https://accounts.claveunica.gob.cl/openid/authorize/?client_id=e436946334034d7c81918ca1e5520385&response_type=code&scope=openid run name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=68dmfgOr0tSGASttTn1aMml8xLzeL983";
+    window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_ids}&response_type=code&scope=openid run name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=${state}`;
   };
 
   return (
