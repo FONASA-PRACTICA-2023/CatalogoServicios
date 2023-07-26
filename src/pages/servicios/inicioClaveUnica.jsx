@@ -6,20 +6,32 @@ const MyComponent = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // Cuando se monta el componente, obtén los tokens
-    getTokens();
+    const storedCode = localStorage.getItem("code");
+    const storedTimestamp = localStorage.getItem("timestamp");
+
+    if (storedCode && storedTimestamp) {
+      const currentTime = new Date().getTime();
+      const timeDifference = currentTime - parseInt(storedTimestamp);
+
+      if (timeDifference < 60000) {
+        // If the stored code is valid (within 1 minute), use it
+        getTokens(storedCode);
+      } else {
+        // Otherwise, remove the expired code from storage
+        localStorage.removeItem("code");
+        localStorage.removeItem("timestamp");
+      }
+    }
   }, []);
 
   useEffect(() => {
-    // Cuando el estado accessToken cambia, llama a la función getData
     if (accessToken) {
       getData();
     }
   }, [accessToken]);
 
-  const getTokens = () => {
+  const getTokens = (code) => {
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
     const state = urlParams.get("state");
 
     var myHeaders = new Headers();
@@ -45,14 +57,16 @@ const MyComponent = () => {
       .then(response => response.json())
       .then(result => {
         setResponse(result);
-        // Una vez que obtienes el access token, guárdalo en el estado
+        // Once you obtain the access token, store it and the current timestamp in localStorage
         setAccessToken(result.access_token);
+        localStorage.setItem("code", code);
+        localStorage.setItem("timestamp", new Date().getTime().toString());
       })
       .catch(error => console.log('error', error));
   }
 
   const getData = () => {
-    // Si no existe el accessToken, no hagas la llamada a getData
+    // If there's no accessToken, don't make the call to getData
     if (!accessToken) return;
 
     var myHeaders = new Headers();
@@ -85,7 +99,6 @@ const MyComponent = () => {
       <h1 className="mb-3">Datos de usuario</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
-
   );
 };
 

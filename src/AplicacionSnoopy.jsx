@@ -28,6 +28,7 @@ function AplicacionSnoopy() {
             <Route path="/logout" element={<Logout />} />
           </Route>
           <Route element={<LayoutFonasa/>}>
+          <Route path="/cue/callback" element={<ClaveUnica/>} />
             <Route
               path="/servicio-crear"
               element={<FormularioServicioIntegracion  />}
