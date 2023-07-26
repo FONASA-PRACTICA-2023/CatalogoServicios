@@ -5,12 +5,14 @@ import Cargando from "../../components/Cargando";
 import MensajeError from "../../components/MensajeError";
 import MensajeExito from "../../components/MensajeExito";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
+
 
 export const FormularioLogin = () => {
   const { login } = useAuth();
   const client_ids = "e436946334034d7c81918ca1e5520385";
-  const state = "123456789";
-
+  // numero aleatorio
+  const state = uuidv4();
 
   let apiSnoopy = useApiSnoopy();
   const [cssFormulario, setCssFormulario] = useState("row g-3 needs-validation");
