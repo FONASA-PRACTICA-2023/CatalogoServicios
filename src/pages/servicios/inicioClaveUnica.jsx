@@ -6,17 +6,16 @@ const MyComponent = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("accessToken");
-    if (storedAccessToken) {
-      setAccessToken(storedAccessToken);
-      getData(storedAccessToken);
-      getTokens();
-    }
+    // Cuando se monta el componente, obtén los tokens
+    getTokens();
   }, []);
 
-  const storeAccessToken = (token) => {
-    localStorage.setItem("accessToken", token);
-  };
+  useEffect(() => {
+    // Cuando el estado accessToken cambia, llama a la función getData
+    if (accessToken) {
+      getData();
+    }
+  }, [accessToken]);
 
   const getTokens = () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,16 +44,15 @@ const MyComponent = () => {
     fetch("https://accounts.claveunica.gob.cl/openid/token/", requestOptions)
       .then(response => response.json())
       .then(result => {
-        setResponse(result);
-        // Once you obtain the access token, store it in localStorage
+        console.log(result);
+        // Una vez que obtienes el access token, guárdalo en el estado
         setAccessToken(result.access_token);
-        storeAccessToken(result.access_token);
       })
       .catch(error => console.log('error', error));
   }
 
-  const getData = (accessToken) => {
-    // If there's no accessToken, don't make the call to getData
+  const getData = () => {
+    // Si no existe el accessToken, no hagas la llamada a getData
     if (!accessToken) return;
 
     var myHeaders = new Headers();
@@ -76,17 +74,15 @@ const MyComponent = () => {
 
     fetch("https://accounts.claveunica.gob.cl/openid/userinfo", requestOptions)
       .then(response => response.json())
-      .then(result => setData(result))
+      .then(result => console.log(result))
       .catch(error => console.log('error', error));
   }
 
   return (
     <div className="container w-50 mt-4">
-      <h1 className="mb-3">Respuesta del POST</h1>
-      <pre>{JSON.stringify(response, null, 2)}</pre>
-      <h1 className="mb-3">Datos de usuario</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      
     </div>
+
   );
 };
 

@@ -12,8 +12,10 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const login = async (usuarioLogeadoData) => {
+    // console.log("useAuth::login", usuarioLogeadoData.token);
     setToken(usuarioLogeadoData.token);
     var decoded = await jwt_decode(usuarioLogeadoData.token);
+    // console.log("LEYENDO TOKEN");
     await setUser(decoded.payload);
     navigate("/registros", { replace: true });
   };
@@ -47,6 +49,7 @@ export const AuthProvider = ({ children }) => {
       login,
       logout,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [user]
   );
 
