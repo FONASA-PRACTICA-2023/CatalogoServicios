@@ -35,7 +35,6 @@ const MyComponent = () => {
     fetch("https://accounts.claveunica.gob.cl/openid/token/", requestOptions)
       .then(response => response.text())
       .then(result => setResponse(result))
-    getData()
       .catch(error => console.log('error', error));
   }
 
