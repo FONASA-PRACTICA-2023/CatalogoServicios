@@ -6,32 +6,22 @@ const MyComponent = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const storedCode = localStorage.getItem("code");
-    const storedTimestamp = localStorage.getItem("timestamp");
-
-    if (storedCode && storedTimestamp) {
-      const currentTime = new Date().getTime();
-      const timeDifference = currentTime - parseInt(storedTimestamp);
-
-      if (timeDifference < 60000) {
-        // If the stored code is valid (within 1 minute), use it
-        getTokens(storedCode);
-      } else {
-        // Otherwise, remove the expired code from storage
-        localStorage.removeItem("code");
-        localStorage.removeItem("timestamp");
-      }
+    const storedAccessToken = localStorage.getItem("accessToken");
+    if (storedAccessToken) {
+      setAccessToken(storedAccessToken);
+      getData(storedAccessToken); // Fetch data using the stored access token
+    } else {
+      getTokens();
     }
   }, []);
 
-  useEffect(() => {
-    if (accessToken) {
-      getData();
-    }
-  }, [accessToken]);
+  const storeAccessToken = (token) => {
+    localStorage.setItem("accessToken", token);
+  };
 
-  const getTokens = (code) => {
+  const getTokens = () => {
     const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
     const state = urlParams.get("state");
 
     var myHeaders = new Headers();
@@ -57,15 +47,14 @@ const MyComponent = () => {
       .then(response => response.json())
       .then(result => {
         setResponse(result);
-        // Once you obtain the access token, store it and the current timestamp in localStorage
+        // Once you obtain the access token, store it in localStorage
         setAccessToken(result.access_token);
-        localStorage.setItem("code", code);
-        localStorage.setItem("timestamp", new Date().getTime().toString());
+        storeAccessToken(result.access_token);
       })
       .catch(error => console.log('error', error));
   }
 
-  const getData = () => {
+  const getData = (accessToken) => {
     // If there's no accessToken, don't make the call to getData
     if (!accessToken) return;
 
