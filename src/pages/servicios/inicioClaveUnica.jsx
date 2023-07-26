@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 const MyComponent = () => {
   const [response, setResponse] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     // Cuando se monta el componente, obtén los tokens
@@ -72,8 +73,8 @@ const MyComponent = () => {
     };
 
     fetch("https://accounts.claveunica.gob.cl/openid/userinfo", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log("-----:", result))
+      .then(response => response.json())
+      .then(result => setData(result))
       .catch(error => console.log('error', error));
   }
 
@@ -81,7 +82,10 @@ const MyComponent = () => {
     <div className="container w-50 mt-4">
       <h1 className="mb-3">Respuesta del POST</h1>
       <pre>{JSON.stringify(response, null, 2)}</pre>
+      <h1 className="mb-3">Datos de usuario</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
+
   );
 };
 
