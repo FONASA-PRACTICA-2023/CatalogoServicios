@@ -9,8 +9,7 @@ const MyComponent = () => {
     const storedAccessToken = localStorage.getItem("accessToken");
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
-      getData(storedAccessToken); // Fetch data using the stored access token
-    } else {
+      getData(storedAccessToken);
       getTokens();
     }
   }, []);
