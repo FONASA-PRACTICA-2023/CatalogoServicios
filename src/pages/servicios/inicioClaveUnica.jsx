@@ -1,31 +1,46 @@
-import React from "react";
+import { useState, useEffect } from "react";
 
+const MyComponent = () => {
+  const [response, setResponse] = useState(null);
 
+  useEffect(() => {
+    // Obtener los valores de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    const state = urlParams.get("state");
 
-function ClaveUnica() {
+    // Hacer el POST con el fetch
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    myHeaders.append("Cookie", "csrftoken=GNgYNAH991h5IR0qeggMXI4bFmvo28k1WvW4WDnVMVQEhOdDWhA7Nf03IfvUC7CD");
 
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("client_id", "e436946334034d7c81918ca1e5520385");
+    urlencoded.append("client_secret", "d882afac5a3c46a687beeb584c07d506");
+    urlencoded.append("redirect_uri", "https://servicios.microservicio.cl/cue/callback");
+    urlencoded.append("grant_type", "authorization_code");
+    urlencoded.append("code", code);
+    urlencoded.append("state", state);
 
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: 'follow'
+    };
+
+    fetch("https://accounts.claveunica.gob.cl/openid/token/", requestOptions)
+      .then(response => response.text())
+      .then(result => setResponse(result))
+      .catch(error => console.log('error', error));
+  }, []);
 
   return (
     <div className="container w-50 mt-4">
-      <h1 className="mb-3">Formulario de Acceso</h1>
-      <form className="row g-3 needs-validation" noValidate>
-        <div className="col-md-4">
-          <label htmlFor="validationCustom01" className="form-label">
-            First name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="validationCustom01"
-            value="Mark"
-            required
-          />
-        </div>
-      </form>
+      <h1 className="mb-3">Respuesta del POST</h1>
+      <pre>{response}</pre>
     </div>
-
   );
-}
+};
 
-export default ClaveUnica;
+export default MyComponent;
