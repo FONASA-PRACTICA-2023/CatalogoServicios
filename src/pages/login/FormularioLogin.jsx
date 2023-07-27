@@ -53,14 +53,30 @@ export const FormularioLogin = () => {
     setCssFormulario("needs-validation row g-3 ");
   };
 
-  const handleClaveUnicaClick = () => {
-    // Generate a new CSRF token before making the GET request
+  const getLoginUrl = () => {
     const newCsrfToken = uuidv4();
     setCsrfToken(newCsrfToken);
+    var myHeaders = new Headers();
+    myHeaders.append("Cookie", "csrftoken=GNgYNAH991h5IR0qeggMXI4bFmvo28k1WvW4WDnVMVQEhOdDWhA7Nf03IfvUC7CD");
 
-    // Redirect the user to Clave Unica with the CSRF token
-    window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid%20run%20name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=${newCsrfToken}`;
-  };
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    fetch(`https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid run name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=${newCsrfToken}`, requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
+
+  // const handleClaveUnicaClick = () => {
+  //   const newCsrfToken = uuidv4();
+  //   setCsrfToken(newCsrfToken);
+
+  //   window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid%20run%20name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=${newCsrfToken}`;
+  // };
 
   return (
     <div className="container w-50 mt-4">
@@ -114,8 +130,8 @@ export const FormularioLogin = () => {
         <div className="col-md-6 mb-3">
           <button
             className="btn btn-sm btn-primary d-flex align-items-center"
-            type="button" // Change to "button" type
-            onClick={handleClaveUnicaClick} // Handle Clave Unica click
+            type="button"
+            onClick={getLoginUrl}
           >
             <em className="material-icons md-18"></em> clave unica
           </button>
