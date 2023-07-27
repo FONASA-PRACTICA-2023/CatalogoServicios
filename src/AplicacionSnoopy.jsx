@@ -23,7 +23,7 @@ function AplicacionSnoopy() {
           <Route element={<LayoutPublico />}>
             <Route path="/login" element={<FormularioLogin />} />
             <Route path="/login" element={<FormularioLogin />} />
-            <Route path="#/cue/callback" element={<ClaveUnica/>} />
+            <Route path="/cue/callback" element={<ClaveUnica/>} />
 
             <Route path="/logout" element={<Logout />} />
           </Route>
