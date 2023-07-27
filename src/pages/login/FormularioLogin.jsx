@@ -10,8 +10,6 @@ import { v4 as uuidv4 } from 'uuid';
 export const FormularioLogin = () => {
   const { login } = useAuth();
   const client_id = "e436946334034d7c81918ca1e5520385";
-  const state = uuidv4();
-  const [csrfToken, setCsrfToken] = useState(state); // Store the CSRF token in the component's state
   let apiSnoopy = useApiSnoopy();
   const [cssFormulario, setCssFormulario] = useState("row g-3 needs-validation");
   const iniciarSesion = async (usuarioLogeado) => {
@@ -54,7 +52,8 @@ export const FormularioLogin = () => {
   };
 
   const handleClaveUnicaClick = () => {
-    window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid%20run%20name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=Zm9uYXNhL2JlbmVmaWNpYXJpb3M`;
+
+    window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid%20run%20name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=dcerv3543rs4324`;
   };
 
   return (

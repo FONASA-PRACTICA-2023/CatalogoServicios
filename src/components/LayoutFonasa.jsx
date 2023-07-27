@@ -10,8 +10,6 @@ function LayoutFonasa() {
   const outlet = useOutlet();
   const { usuario_jwt } = useAuth();
 
-  // ...
-
   if (!usuario_jwt()) {
     return <Navigate to={constantes.logout} />;
   }
