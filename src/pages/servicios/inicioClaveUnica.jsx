@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyComponent = () => {
   const [response, setResponse] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getTokens();
+    const storedAccessToken = localStorage.getItem("access_token");
+    if (storedAccessToken) {
+      setAccessToken(storedAccessToken);
+    } else {
+      getTokens();
+    }
   }, []);
 
   useEffect(() => {
@@ -44,6 +51,7 @@ const MyComponent = () => {
       .then(result => {
         console.log(result);
         setAccessToken(result.access_token);
+        localStorage.setItem("access_token", result.access_token); // Save access token to local storage
       })
       .catch(error => console.log('error', error));
   }
@@ -71,14 +79,14 @@ const MyComponent = () => {
     fetch("https://accounts.claveunica.gob.cl/openid/userinfo", requestOptions)
       .then(response => response.json())
       .then(result => console.log(result))
+    navigate("/registros", { replace: true })
       .catch(error => console.log('error', error));
   }
 
   return (
     <div className="container w-50 mt-4">
-      
+      {/* Your component content */}
     </div>
-
   );
 };
 
