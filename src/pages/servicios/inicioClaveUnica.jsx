@@ -6,12 +6,10 @@ const MyComponent = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // Cuando se monta el componente, obtén los tokens
     getTokens();
   }, []);
 
   useEffect(() => {
-    // Cuando el estado accessToken cambia, llama a la función getData
     if (accessToken) {
       getData();
     }
@@ -45,14 +43,12 @@ const MyComponent = () => {
       .then(response => response.json())
       .then(result => {
         console.log(result);
-        // Una vez que obtienes el access token, guárdalo en el estado
         setAccessToken(result.access_token);
       })
       .catch(error => console.log('error', error));
   }
 
   const getData = () => {
-    // Si no existe el accessToken, no hagas la llamada a getData
     if (!accessToken) return;
 
     var myHeaders = new Headers();
