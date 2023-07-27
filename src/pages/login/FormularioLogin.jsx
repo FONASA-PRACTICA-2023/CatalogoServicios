@@ -54,10 +54,8 @@ export const FormularioLogin = () => {
   };
 
   const handleClaveUnicaClick = () => {
-    const newCsrfToken = uuidv4();
-    setCsrfToken(newCsrfToken);
 
-    window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid%20run%20name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=${newCsrfToken}`;
+    window.location.href = `https://accounts.claveunica.gob.cl/openid/authorize/?client_id=${client_id}&response_type=code&scope=openid%20run%20name&redirect_uri=https://servicios.microservicio.cl/cue/callback&state=Zm9uYXNhL2JlbmVmaWNpYXJpb3M`;
   };
 
   return (
